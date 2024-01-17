@@ -4,10 +4,83 @@
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
              x:Class="GymTrackerApp.Views.StartPage"
              x:DataType="viewModels:StartViewModel"
-             Shell.NavBarIsVisible="False">
-    <VerticalStackLayout>
-        <Label Text="Startpage"
-               VerticalTextAlignment="Center"
-               HorizontalTextAlignment="Center"/>
-    </VerticalStackLayout>
+             Title="Overview">
+    <Grid RowDefinitions="*,50"
+          ColumnDefinitions="*,*"
+          ColumnSpacing="5"
+          Padding="5">
+        <CollectionView Grid.ColumnSpan="2">
+            <CollectionView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Training 1</x:String>
+                    <x:String>Training 2</x:String>
+                    <x:String>Training 3</x:String>
+                    <x:String>Training 4</x:String>
+                    <x:String>Training 5</x:String>
+                    <x:String>Training 6</x:String>
+                    <x:String>Training 7</x:String>
+                    <x:String>Training 8</x:String>
+                    <x:String>Training 9</x:String>
+                    <x:String>Training 10</x:String>
+                    <x:String>Training 11</x:String>
+                    <x:String>Training 12</x:String>
+                    <x:String>Training 13</x:String>
+                    <x:String>Training 14</x:String>
+                    <x:String>Training 15</x:String>
+                    <x:String>Training 16</x:String>
+                    <x:String>Training 17</x:String>
+                    <x:String>Training 18</x:String>
+                    <x:String>Training 19</x:String>
+                    <x:String>Training 20</x:String>
+                    <x:String>Training 21</x:String>
+                    <x:String>Training 22</x:String>
+                    <x:String>Training 23</x:String>
+                    <x:String>Training 24</x:String>
+                    <x:String>Training 25</x:String>
+                    <x:String>Training 26</x:String>
+                    <x:String>Training 27</x:String>
+                    <x:String>Training 28</x:String>
+                    <x:String>Training 29</x:String>
+                    <x:String>Training 30</x:String>
+                    <x:String>Training 31</x:String>
+                    <x:String>Training 32</x:String>
+                    <x:String>Training 33</x:String>
+                    <x:String>Training 34</x:String>
+                    <x:String>Training 35</x:String>
+                    <x:String>Training 30</x:String>
+                    <x:String>Training 30</x:String>
+                </x:Array>
+            </CollectionView.ItemsSource>
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                                 Span="{OnPlatform WinUI=5, Default=2}"
+                                 HorizontalItemSpacing="5"
+                                 VerticalItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding .}"
+                                   FontSize="Medium"
+                                   FontAttributes="Bold" />
+                            <Label Text="Exercise A (?*? ?)"
+                                   FontSize="Small" />
+                            <Label Text="Exercise B (?*? ?)"
+                                   FontSize="Small" />
+                            <Label Text="Exercise C (?*? ?)"
+                                   FontSize="Small" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Grid.Row="1"
+                Text="Manage routines"
+                Command="{Binding ManageRoutinesCommand}" />
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                Text="Start training"
+                Command="{Binding StartTrainingCommand}" />
+    </Grid>
 </ContentPage>
