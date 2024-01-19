@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:util="clr-namespace:GymTrackerApp.Util"
+             xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
+             x:Class="GymTrackerApp.Views.CreateRoutinePage"
+             x:DataType="viewModels:CreateRoutineViewModel"
+             Title="Create Routine">
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <Frame>
+                <VerticalStackLayout>
+                    <Entry VerticalTextAlignment="Center"
+                           Placeholder="Name of the rotine"
+                           Keyboard="Text" />
+                    <Picker Title="Select the main goal">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Endurance</x:String>
+                                <x:String>Hypertrophy</x:String>
+                                <x:String>Strength</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+            <BoxView Style="{StaticResource HorizontalLine}" />
+            <Label Grid.Column="1"
+                   Text="Workouts"
+                   Style="{StaticResource BigTitleLabel}" />
+            <CollectionView ItemsSource="{Binding Workouts}">
+                <CollectionView.EmptyView>
+                    <Label Text="No workouts defined"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           FontAttributes="Italic" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame>
+                            <VerticalStackLayout>
+                                <Grid ColumnDefinitions="*,auto"
+                                      RowDefinitions="*,*">
+                                    <HorizontalStackLayout>
+                                        <HorizontalStackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=EditWorkoutTitleCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </HorizontalStackLayout.GestureRecognizers>
+                                        <Label  Text="{Binding .}"
+                                                Style="{StaticResource TitleLabel}" />
+                                        <Label Style="{StaticResource TitleRenameLabel}" />
+                                    </HorizontalStackLayout>
+                                    <Button Grid.Column="1"
+                                            Style="{StaticResource MiniDeleteButton}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=DeleteWorkoutCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+                                <BoxView Style="{StaticResource HorizontalLine}" />
+                                <CollectionView>
+                                    <CollectionView.EmptyView>
+                                        <Label Text="No exercises defined"
+                                               HorizontalOptions="Center"
+                                               FontAttributes="Italic" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.Footer>
+                                        <!--
+                                            CollectionView footer disappear unexpectedly
+                                            https://github.com/dotnet/maui/issues/17437
+                                        -->
+                                        <Grid RowDefinitions="*"
+                                              ColumnDefinitions="*,*">
+                                            <Button Grid.Column="1"
+                                                    Style="{StaticResource MiniButton}"
+                                                    Text="Add exercise" />
+                                        </Grid>
+                                    </CollectionView.Footer>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <Frame HeightRequest="100">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddWorkoutCommand}" />
+                        </Frame.GestureRecognizers>
+                        <Label Text="{x:Static util:FontAwesomeWrapper.Add}"
+                               FontFamily="FAS"
+                               FontSize="Large"
+                               HorizontalOptions="Center" />
+                    </Frame>
+                </CollectionView.Footer>
+            </CollectionView>
+            <BoxView Style="{StaticResource HorizontalLine}" />
+            <Grid ColumnDefinitions="*,*">
+                <Button Grid.Column="1"
+                        Text="Save" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

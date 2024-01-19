@@ -24,9 +24,11 @@ namespace GymTrackerApp
 
             builder.Services.AddSingleton<StartViewModel>();
             builder.Services.AddSingleton<ManageRoutinesViewModel>();
+            builder.Services.AddTransient<CreateRoutineViewModel>();
 
             builder.Services.AddSingleton<StartPage>();
             builder.Services.AddSingleton<ManageRoutinesPage>();
+            builder.Services.AddTransient<CreateRoutinePage>();
 
             return builder.Build();
         }

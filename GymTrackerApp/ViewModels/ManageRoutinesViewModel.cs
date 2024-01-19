@@ -8,7 +8,7 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task CreateNewRoutine()
         {
-            await Shell.Current.DisplayAlert("Info", $"Clicked on create routine", "close");
+            await Shell.Current.GoToAsync(nameof(CreateRoutinePage));
         }
 
         [RelayCommand]
