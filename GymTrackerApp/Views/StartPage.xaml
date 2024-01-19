@@ -60,24 +60,25 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:StartViewModel}}, Path=DetailsCommand}"
+                                                  CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
                         <VerticalStackLayout>
                             <Label Text="{Binding .}"
-                                   FontSize="Medium"
-                                   FontAttributes="Bold" />
+                                   Style="{StaticResource TitleLabel}"
+                                   HorizontalTextAlignment="Center" />
                             <Label Text="Exercise A (?*? ?)"
-                                   FontSize="Small" />
+                                   Style="{StaticResource SmallLabel}" />
                             <Label Text="Exercise B (?*? ?)"
-                                   FontSize="Small" />
+                                   Style="{StaticResource SmallLabel}" />
                             <Label Text="Exercise C (?*? ?)"
-                                   FontSize="Small" />
+                                   Style="{StaticResource SmallLabel}" />
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Grid.Row="1"
-                Text="Manage routines"
-                Command="{Binding ManageRoutinesCommand}" />
         <Button Grid.Column="1"
                 Grid.Row="1"
                 Text="Start training"

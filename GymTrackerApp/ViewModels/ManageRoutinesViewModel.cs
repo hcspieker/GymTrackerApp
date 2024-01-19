@@ -1,13 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using GymTrackerApp.Views;
 
 namespace GymTrackerApp.ViewModels
 {
-    public partial class StartViewModel : BaseViewModel
+    public partial class ManageRoutinesViewModel : BaseViewModel
     {
         [RelayCommand]
-        async Task StartTraining()
+        async Task CreateNewRoutine()
         {
-            await Shell.Current.DisplayAlert("Info", "Clicked on start training", "close");
+            await Shell.Current.DisplayAlert("Info", $"Clicked on create routine", "close");
         }
 
         [RelayCommand]
