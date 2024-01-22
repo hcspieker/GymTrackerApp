@@ -13,7 +13,7 @@
                     <Entry VerticalTextAlignment="Center"
                            Placeholder="Name of the rotine"
                            Keyboard="Text" />
-                    <Picker Title="Select the main goal">
+                    <Picker Title="Select the category">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Endurance</x:String>
@@ -57,40 +57,87 @@
                                 </Grid>
                                 <BoxView Style="{StaticResource HorizontalLine}" />
                                 <CollectionView>
+                                    <CollectionView.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Squat</x:String>
+                                            <x:String>Bench</x:String>
+                                            <x:String>Deadlift</x:String>
+                                        </x:Array>
+                                    </CollectionView.ItemsSource>
                                     <CollectionView.EmptyView>
                                         <Label Text="No exercises defined"
                                                HorizontalOptions="Center"
                                                FontAttributes="Italic" />
                                     </CollectionView.EmptyView>
-                                    <CollectionView.Footer>
-                                        <!--
-                                            CollectionView footer disappear unexpectedly
-                                            https://github.com/dotnet/maui/issues/17437
-                                        -->
-                                        <Grid RowDefinitions="*"
-                                              ColumnDefinitions="*,*">
-                                            <Button Grid.Column="1"
-                                                    Style="{StaticResource MiniButton}"
-                                                    Text="Add exercise" />
-                                        </Grid>
-                                    </CollectionView.Footer>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="*,*"
+                                                  RowDefinitions="*,*,*" Margin="0,0,0,10">
+                                                <Label Text="{Binding .}"
+                                                       Style="{StaticResource TitleLabel}" />
+                                                <Button Grid.Column="1"
+                                                        HorizontalOptions="End"
+                                                        Style="{StaticResource MiniDeleteButton}" />
+                                                <Label Grid.Row="1"
+                                                       Text="Warmup"
+                                                       VerticalTextAlignment="Center"
+                                                       Style="{StaticResource SmallLabel}" />
+                                                <HorizontalStackLayout Grid.Column="1"
+                                                                       Grid.Row="1"
+                                                                       HorizontalOptions="End">
+                                                    <Label Text="Sets"
+                                                           VerticalTextAlignment="Center"
+                                                           Style="{StaticResource SmallLabel}" />
+                                                    <Entry Placeholder="3"
+                                                           Keyboard="Numeric" />
+                                                    <Label Text="Reps"
+                                                           VerticalTextAlignment="Center"
+                                                           Style="{StaticResource SmallLabel}" />
+                                                    <Entry Placeholder="5"
+                                                           Keyboard="Numeric" />
+                                                </HorizontalStackLayout>
+                                                <Label Grid.Row="2"
+                                                       Text="Work"
+                                                       VerticalTextAlignment="Center"
+                                                       Style="{StaticResource SmallLabel}" />
+                                                <HorizontalStackLayout Grid.Column="1"
+                                                                       Grid.Row="2"
+                                                                       HorizontalOptions="End">
+                                                    <Label Text="Sets"
+                                                           VerticalTextAlignment="Center"
+                                                           Style="{StaticResource SmallLabel}" />
+                                                    <Entry Placeholder="3"
+                                                           Keyboard="Numeric" />
+                                                    <Label Text="Reps"
+                                                           VerticalTextAlignment="Center"
+                                                           Style="{StaticResource SmallLabel}" />
+                                                    <Entry Placeholder="5"
+                                                           Keyboard="Numeric" />
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
                                 </CollectionView>
+                                <Grid RowDefinitions="*"
+                                      ColumnDefinitions="*,*">
+                                    <Button Grid.Column="1"
+                                            Style="{StaticResource MiniButton}"
+                                            Text="Add exercise" />
+                                </Grid>
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                <CollectionView.Footer>
-                    <Frame HeightRequest="100">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AddWorkoutCommand}" />
-                        </Frame.GestureRecognizers>
-                        <Label Text="{x:Static util:FontAwesomeWrapper.Add}"
-                               FontFamily="FAS"
-                               FontSize="Large"
-                               HorizontalOptions="Center" />
-                    </Frame>
-                </CollectionView.Footer>
             </CollectionView>
+            <Frame>
+                <Grid RowDefinitions="*"
+                      ColumnDefinitions="*,*">
+                    <Button Grid.Column="1"
+                            Style="{StaticResource MiniButton}"
+                            Command="{Binding AddWorkoutCommand}"
+                            Text="Add workout" />
+                </Grid>
+            </Frame>
             <BoxView Style="{StaticResource HorizontalLine}" />
             <Grid ColumnDefinitions="*,*">
                 <Button Grid.Column="1"
