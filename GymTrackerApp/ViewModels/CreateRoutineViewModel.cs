@@ -1,38 +1,37 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GymTrackerApp.Models;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.ViewModels
 {
+    [QueryProperty(nameof(RoutineTitle), "Title")]
     public partial class CreateRoutineViewModel : BaseViewModel
     {
-        public ObservableCollection<string> Workouts { get; set; }
+        public string RoutineTitle
+        {
+            get { return Routine.Title; }
+            set { Routine.Title = value; }
+        }
+
+        [ObservableProperty]
+        private CreateRoutineModel routine;
 
         public CreateRoutineViewModel()
         {
-            Workouts = new ObservableCollection<string>
-            {
-                "Workout 1",
-                "Workout 2",
-                "Workout 3"
-            };
+            Routine = new();
         }
 
         [RelayCommand]
-        async Task EditWorkoutTitle(string oldTitle)
+        async Task EditRoutineTitle()
         {
             var result = await Shell.Current.DisplayPromptAsync("Rename",
-                $"Rename Workout", initialValue: oldTitle, keyboard: Keyboard.Text);
+                $"Change routine title", initialValue: Routine.Title, keyboard: Keyboard.Text);
 
-            if (result == oldTitle || string.IsNullOrWhiteSpace(result))
+            if (result == Routine.Title || string.IsNullOrWhiteSpace(result))
                 return;
 
-            Workouts[Workouts.IndexOf(oldTitle)] = result;
-        }
-
-        [RelayCommand]
-        void DeleteWorkout(string workout)
-        {
-            Workouts.Remove(workout);
+            Routine.Title = result;
         }
 
         [RelayCommand]
@@ -43,7 +42,50 @@ namespace GymTrackerApp.ViewModels
 
             if (string.IsNullOrWhiteSpace(result)) return;
 
-            Workouts.Add(result);
+            Routine.Workouts.Add(new(result));
+        }
+
+        [RelayCommand]
+        async Task EditWorkoutTitle(CreateWorkoutModel workout)
+        {
+            var result = await Shell.Current.DisplayPromptAsync("Rename",
+                $"Change workout title", initialValue: workout.Title, keyboard: Keyboard.Text);
+
+            if (result == workout.Title || string.IsNullOrWhiteSpace(result))
+                return;
+
+            workout.Title = result;
+        }
+
+        [RelayCommand]
+        void DeleteWorkout(CreateWorkoutModel workout)
+        {
+            Routine.Workouts.Remove(workout);
+        }
+
+        [RelayCommand]
+        async Task AddExercise(CreateWorkoutModel workout)
+        {
+            var result = await Shell.Current.DisplayPromptAsync("Add Exercise",
+                $"Which exercise do you want to add?", keyboard: Keyboard.Text);
+
+            if (string.IsNullOrWhiteSpace(result)) return;
+
+            workout.Exercises.Add(new CreateExerciseModel(result));
+        }
+
+        [RelayCommand]
+        void DeleteExercise(CreateExerciseModel exercise)
+        {
+            var workout = Routine.Workouts.Single(x => x.Exercises.Any(y => y.TemporaryId == exercise.TemporaryId));
+            workout.Exercises.Remove(exercise);
+        }
+
+        [RelayCommand]
+        async Task Save()
+        {
+            await Shell.Current.DisplayAlert("", "Saved new routine", "close");
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

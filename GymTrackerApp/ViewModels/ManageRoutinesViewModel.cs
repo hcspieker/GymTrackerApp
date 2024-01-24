@@ -8,7 +8,16 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task CreateNewRoutine()
         {
-            await Shell.Current.GoToAsync(nameof(CreateRoutinePage));
+            var title = await Shell.Current.DisplayPromptAsync("Create new workout routine",
+                $"Supply a title for the new routine", keyboard: Keyboard.Text);
+
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                await Shell.Current.DisplayAlert("Create new workout routine", "Canceled creation", "close");
+                return;
+            }
+
+            await Shell.Current.GoToAsync(nameof(CreateRoutinePage), true, new Dictionary<string, object> { { "Title", title } });
         }
 
         [RelayCommand]

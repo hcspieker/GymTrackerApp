@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:models="clr-namespace:GymTrackerApp.Models"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:util="clr-namespace:GymTrackerApp.Util"
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
@@ -10,25 +11,25 @@
         <VerticalStackLayout Padding="10">
             <Frame>
                 <VerticalStackLayout>
-                    <Entry VerticalTextAlignment="Center"
-                           Placeholder="Name of the rotine"
-                           Keyboard="Text" />
-                    <Picker Title="Select the category">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Endurance</x:String>
-                                <x:String>Hypertrophy</x:String>
-                                <x:String>Strength</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <HorizontalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EditRoutineTitleCommand}" />
+                        </HorizontalStackLayout.GestureRecognizers>
+                        <Label  Text="{Binding Routine.Title}"
+                                Style="{StaticResource BigTitleLabel}" />
+                        <Label Style="{StaticResource TitleRenameLabel}" />
+                    </HorizontalStackLayout>
+                    <Picker Title="Select the category"
+                            SelectedItem="{Binding Routine.SelectedCategory, Mode=TwoWay}"
+                            ItemsSource="{Binding Routine.Categories}"
+                            ItemDisplayBinding="{Binding DisplayName}" />
                 </VerticalStackLayout>
             </Frame>
             <BoxView Style="{StaticResource HorizontalLine}" />
             <Label Grid.Column="1"
                    Text="Workouts"
                    Style="{StaticResource BigTitleLabel}" />
-            <CollectionView ItemsSource="{Binding Workouts}">
+            <CollectionView ItemsSource="{Binding Routine.Workouts}">
                 <CollectionView.EmptyView>
                     <Label Text="No workouts defined"
                            HorizontalOptions="CenterAndExpand"
@@ -36,7 +37,7 @@
                            FontAttributes="Italic" />
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:CreateWorkoutModel">
                         <Frame>
                             <VerticalStackLayout>
                                 <Grid ColumnDefinitions="*,auto"
@@ -46,7 +47,7 @@
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=EditWorkoutTitleCommand}"
                                                                   CommandParameter="{Binding .}" />
                                         </HorizontalStackLayout.GestureRecognizers>
-                                        <Label  Text="{Binding .}"
+                                        <Label  Text="{Binding Title}"
                                                 Style="{StaticResource TitleLabel}" />
                                         <Label Style="{StaticResource TitleRenameLabel}" />
                                     </HorizontalStackLayout>
@@ -56,28 +57,24 @@
                                             CommandParameter="{Binding .}" />
                                 </Grid>
                                 <BoxView Style="{StaticResource HorizontalLine}" />
-                                <CollectionView>
-                                    <CollectionView.ItemsSource>
-                                        <x:Array Type="{x:Type x:String}">
-                                            <x:String>Squat</x:String>
-                                            <x:String>Bench</x:String>
-                                            <x:String>Deadlift</x:String>
-                                        </x:Array>
-                                    </CollectionView.ItemsSource>
+                                <CollectionView ItemsSource="{Binding Exercises}">
                                     <CollectionView.EmptyView>
                                         <Label Text="No exercises defined"
                                                HorizontalOptions="Center"
                                                FontAttributes="Italic" />
                                     </CollectionView.EmptyView>
                                     <CollectionView.ItemTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate x:DataType="models:CreateExerciseModel">
                                             <Grid ColumnDefinitions="*,*"
-                                                  RowDefinitions="*,*,*" Margin="0,0,0,10">
-                                                <Label Text="{Binding .}"
+                                                  RowDefinitions="*,*,*"
+                                                  Margin="0,0,0,10">
+                                                <Label Text="{Binding Name}"
                                                        Style="{StaticResource TitleLabel}" />
                                                 <Button Grid.Column="1"
                                                         HorizontalOptions="End"
-                                                        Style="{StaticResource MiniDeleteButton}" />
+                                                        Style="{StaticResource MiniDeleteButton}"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=DeleteExerciseCommand}"
+                                                        CommandParameter="{Binding .}" />
                                                 <Label Grid.Row="1"
                                                        Text="Warmup"
                                                        VerticalTextAlignment="Center"
@@ -89,11 +86,7 @@
                                                            VerticalTextAlignment="Center"
                                                            Style="{StaticResource SmallLabel}" />
                                                     <Entry Placeholder="3"
-                                                           Keyboard="Numeric" />
-                                                    <Label Text="Reps"
-                                                           VerticalTextAlignment="Center"
-                                                           Style="{StaticResource SmallLabel}" />
-                                                    <Entry Placeholder="5"
+                                                           Text="{Binding WarmupSets}"
                                                            Keyboard="Numeric" />
                                                 </HorizontalStackLayout>
                                                 <Label Grid.Row="2"
@@ -107,11 +100,13 @@
                                                            VerticalTextAlignment="Center"
                                                            Style="{StaticResource SmallLabel}" />
                                                     <Entry Placeholder="3"
+                                                           Text="{Binding WorkSets}"
                                                            Keyboard="Numeric" />
                                                     <Label Text="Reps"
                                                            VerticalTextAlignment="Center"
                                                            Style="{StaticResource SmallLabel}" />
                                                     <Entry Placeholder="5"
+                                                           Text="{Binding RepsPerWorkSet}"
                                                            Keyboard="Numeric" />
                                                 </HorizontalStackLayout>
                                             </Grid>
@@ -122,7 +117,9 @@
                                       ColumnDefinitions="*,*">
                                     <Button Grid.Column="1"
                                             Style="{StaticResource MiniButton}"
-                                            Text="Add exercise" />
+                                            Text="Add exercise"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=AddExerciseCommand}"
+                                            CommandParameter="{Binding .}" />
                                 </Grid>
                             </VerticalStackLayout>
                         </Frame>
@@ -141,6 +138,7 @@
             <BoxView Style="{StaticResource HorizontalLine}" />
             <Grid ColumnDefinitions="*,*">
                 <Button Grid.Column="1"
+                        Command="{Binding SaveCommand}"
                         Text="Save" />
             </Grid>
         </VerticalStackLayout>
