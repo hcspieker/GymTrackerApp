@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GymTrackerApp.Views.StartTrainingPage"
+             x:DataType="viewModels:StartTrainingViewModel"
+             Title="Choose mode">
+    <Grid RowDefinitions="*,50"
+          ColumnDefinitions="*,*"
+          ColumnSpacing="5"
+          Padding="5">
+        <VerticalStackLayout Grid.ColumnSpan="2">
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding UsePlan}" />
+                <Label Text="Use a plan"
+                       Style="{StaticResource CheckboxLabel}" />
+            </HorizontalStackLayout>
+            <Label IsVisible="{Binding UsePlan}"
+                   Text="Using a plan (not implemented)" />
+        </VerticalStackLayout>
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                Text="Start"
+                Command="{Binding StartCommand}" />
+    </Grid>
+</ContentPage>

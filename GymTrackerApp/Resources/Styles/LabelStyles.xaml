@@ -58,4 +58,10 @@
         <Setter Property="VerticalOptions"
                 Value="Center" />
     </Style>
+    <Style x:Key="CheckboxLabel"
+           TargetType="Label"
+           BasedOn="{StaticResource BaseLabel}">
+        <Setter Property="VerticalTextAlignment"
+                Value="Center" />
+    </Style>
 </ResourceDictionary>

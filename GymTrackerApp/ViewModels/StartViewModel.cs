@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using GymTrackerApp.Models;
+using GymTrackerApp.Views;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.ViewModels
@@ -31,7 +32,7 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task StartTraining()
         {
-            await Shell.Current.DisplayAlert("Info", "Clicked on start training", "close");
+            await Shell.Current.GoToAsync(nameof(StartTrainingPage));
         }
 
         [RelayCommand]
