@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.Models
 {
-    public partial class CreateWorkoutModel : BaseCreateModel
+    public partial class CreateWorkoutModel : BaseModel
     {
         [ObservableProperty]
         private string title;

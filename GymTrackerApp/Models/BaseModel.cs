@@ -2,11 +2,11 @@
 
 namespace GymTrackerApp.Models
 {
-    public abstract class BaseCreateModel : ObservableObject
+    public abstract class BaseModel : ObservableObject
     {
         public Guid TemporaryId { get; }
 
-        public BaseCreateModel()
+        public BaseModel()
         {
             TemporaryId = Guid.NewGuid();
         }

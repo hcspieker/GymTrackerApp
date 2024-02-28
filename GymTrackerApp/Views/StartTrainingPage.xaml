@@ -9,14 +9,29 @@
           ColumnDefinitions="*,*"
           ColumnSpacing="5"
           Padding="5">
-        <VerticalStackLayout Grid.ColumnSpan="2">
+        <VerticalStackLayout Grid.ColumnSpan="2"
+                             Padding="10">
             <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding UsePlan}" />
                 <Label Text="Use a plan"
                        Style="{StaticResource CheckboxLabel}" />
+                <CheckBox IsChecked="{Binding UsePlan}" />
             </HorizontalStackLayout>
+            <BoxView Style="{StaticResource HorizontalLine}" />
             <Label IsVisible="{Binding UsePlan}"
-                   Text="Using a plan (not implemented)" />
+                   Text="Using a plan (not implemented)"
+                   Style="{StaticResource TitleLabel}" />
+            <Label IsVisible="{Binding NotUsePlan}"
+                   Text="Not using a plan"
+                   Style="{StaticResource TitleLabel}" />
+            <Grid ColumnDefinitions="auto,*"
+                  IsVisible="{Binding NotUsePlan}">
+                <Label Text="Workout title:"
+                       VerticalOptions="Center"
+                       FontSize="Medium" />
+                <Entry Grid.Column="1"
+                       Text="{Binding WorkoutTitle}"
+                       Keyboard="Text" />
+            </Grid>
         </VerticalStackLayout>
         <Button Grid.Column="1"
                 Grid.Row="1"

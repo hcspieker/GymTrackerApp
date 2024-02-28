@@ -6,12 +6,18 @@ namespace GymTrackerApp.ViewModels
 {
     public partial class StartTrainingViewModel : BaseViewModel
     {
-        [ObservableProperty]
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(NotUsePlan))]
         private bool usePlan;
+
+        public bool NotUsePlan => !UsePlan;
+
+        [ObservableProperty]
+        private string workoutTitle;
 
         public StartTrainingViewModel()
         {
             UsePlan = true;
+            WorkoutTitle = string.Empty;
         }
 
         [RelayCommand]
@@ -30,7 +36,13 @@ namespace GymTrackerApp.ViewModels
                 }
             }
 
-            await Shell.Current.GoToAsync(nameof(RunTrainingPage));
+            if (string.IsNullOrWhiteSpace(WorkoutTitle))
+            {
+                await Shell.Current.DisplayAlert("Warning", "Workout title is mandatory", "close");
+                return;
+            }
+
+            await Shell.Current.GoToAsync(nameof(RunTrainingPage), new Dictionary<string, object> { { "title", WorkoutTitle } });
         }
     }
 }

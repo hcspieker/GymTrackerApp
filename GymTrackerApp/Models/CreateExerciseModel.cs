@@ -2,7 +2,7 @@
 
 namespace GymTrackerApp.Models
 {
-    public partial class CreateExerciseModel : BaseCreateModel
+    public partial class CreateExerciseModel : BaseModel
     {
         [ObservableProperty]
         private string name;

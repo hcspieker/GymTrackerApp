@@ -20,6 +20,18 @@
     </Style>
     <Style TargetType="Button"
            BasedOn="{StaticResource BaseButton}"></Style>
+    <Style x:Key="GreenButton"
+           TargetType="Button"
+           BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light=DarkGreen, Dark=DarkGreen}" />
+    </Style>
+    <Style x:Key="RedButton"
+           TargetType="Button"
+           BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light=DarkRed, Dark=DarkRed}" />
+    </Style>
     <Style x:Key="MiniButton"
            TargetType="Button"
            BasedOn="{StaticResource BaseButton}">
@@ -33,6 +45,18 @@
                 Value="10,5" />
         <Setter Property="Margin"
                 Value="5" />
+    </Style>
+    <Style x:Key="MiniAddButton"
+           TargetType="Button"
+           BasedOn="{StaticResource MiniButton}">
+        <Setter Property="FontFamily"
+                Value="FAS" />
+        <Setter Property="Text"
+                Value="{x:Static util:FontAwesomeWrapper.Add}" />
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray500}}" />
+        <Setter Property="BackgroundColor"
+                Value="Transparent" />
     </Style>
     <Style x:Key="MiniDeleteButton"
            TargetType="Button"
