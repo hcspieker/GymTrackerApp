@@ -35,6 +35,7 @@
         </VerticalStackLayout>
         <Button Grid.Column="1"
                 Grid.Row="1"
+                IsVisible="{Binding StartIsVisible}"
                 Text="Start"
                 Command="{Binding StartCommand}" />
     </Grid>

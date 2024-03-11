@@ -6,12 +6,15 @@ namespace GymTrackerApp.ViewModels
 {
     public partial class StartTrainingViewModel : BaseViewModel
     {
-        [ObservableProperty, NotifyPropertyChangedFor(nameof(NotUsePlan))]
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(NotUsePlan)),
+            NotifyPropertyChangedFor(nameof(StartIsVisible))]
         private bool usePlan;
 
         public bool NotUsePlan => !UsePlan;
 
-        [ObservableProperty]
+        public bool StartIsVisible => UsePlan || !string.IsNullOrWhiteSpace(WorkoutTitle);
+
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(StartIsVisible))]
         private string workoutTitle;
 
         public StartTrainingViewModel()
