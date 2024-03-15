@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:models="clr-namespace:GymTrackerApp.Models"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GymTrackerApp.Views.StartPage"
              x:DataType="viewModels:StartViewModel"
              Title="Overview">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
     <Grid RowDefinitions="*,50"
           ColumnDefinitions="*,*"
           ColumnSpacing="5"

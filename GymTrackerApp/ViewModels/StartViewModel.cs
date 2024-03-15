@@ -1,6 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.Input;
+using GymTrackerApp.Data;
 using GymTrackerApp.Models;
 using GymTrackerApp.Views;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.ViewModels
@@ -11,21 +14,29 @@ namespace GymTrackerApp.ViewModels
 
         public StartViewModel()
         {
-            Workouts = new ObservableCollection<WorkoutSummaryModel>();
+            Workouts = new();
+        }
 
-            for (int i = 0; i < 10; i++)
+        [RelayCommand]
+        void Appearing()
+        {
+            Workouts.Clear();
+
+            using var context = new GymTrackerContext();
+            var entries = context.Workouts
+                .Include(x => x.Exercises)
+                    .ThenInclude(x => x.ExerciseSets)
+                .Include(x => x.PlannedWorkout)
+                    .ThenInclude(x => x.PlannedRoutine)
+                .OrderByDescending(x => x.EndTime ?? DateTime.MinValue)
+                .Select(x => new WorkoutSummaryModel(x))
+                .ToList();
+
+            if (!entries.Any()) return;
+
+            foreach (var entry in entries)
             {
-                Workouts.Add(new WorkoutSummaryModel
-                {
-                    RoutineTitle = "Routine A",
-                    WorkoutTitle = $"Workout {(i % 2 == 0 ? "1" : "2")}",
-                    Start = DateTime.Now.AddDays(-(i + 1)),
-                    End = DateTime.Now.AddDays(-(i + 1)).AddHours(1),
-                    ExerciseSummaries = [
-                        $"Exercise 1 (5x5 1{i}0)",
-                        $"Exercise 2 (3x8 {i}0)"
-                    ]
-                });
+                Workouts.Add(entry);
             }
         }
 
@@ -38,8 +49,14 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task Details(WorkoutSummaryModel element)
         {
-            await Shell.Current.DisplayAlert("Info", $"Clicked on details of {element.RoutineTitle} - " +
-                $"{element.WorkoutTitle}: {element.Start:dd.MM.yyyy HH:mm:ss} - {element.End:HH:mm:ss}", "close");
+            var displayName = !string.IsNullOrWhiteSpace(element.RoutineTitle) ?
+                $"{element.RoutineTitle} - {element.WorkoutTitle}" :
+                element.WorkoutTitle;
+
+            var message = $"Clicked on details of {displayName}: " +
+                $"{element.Start:dd.MM.yyyy HH:mm} - {element.End:HH:mm}";
+
+            await Toast.Make(message).Show();
         }
     }
 }
