@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GymTrackerApp.Data.Entity;
 using System.Globalization;
 
 namespace GymTrackerApp.Models
@@ -11,12 +12,12 @@ namespace GymTrackerApp.Models
         [ObservableProperty]
         private decimal? weight;
 
-        public ExecuteSetModel() : this(0, 0m)
+        public ExecuteSetModel() : this(0, null)
         {
 
         }
 
-        public ExecuteSetModel(int repetitions, decimal weight)
+        public ExecuteSetModel(int repetitions, decimal? weight)
         {
             Repetitions = repetitions;
             Weight = weight;
@@ -42,6 +43,16 @@ namespace GymTrackerApp.Models
                 return $"{Repetitions}x{Weight}";
 
             return Repetitions.ToString();
+        }
+
+        public ExerciseSet ConvertToEty(ExerciseSetType setType)
+        {
+            return new ExerciseSet
+            {
+                SetType = setType,
+                Repetitions = Repetitions,
+                Weight = Weight
+            };
         }
     }
 }

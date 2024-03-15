@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GymTrackerApp.Data.Entity;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.Models
@@ -9,23 +10,34 @@ namespace GymTrackerApp.Models
         private string routineTitle, workoutTitle;
 
         [ObservableProperty]
-        private DateTime start, end;
+        private DateTime? start, end;
 
         public ObservableCollection<string> ExerciseSummaries { get; set; }
 
-        public WorkoutSummaryModel() : this(string.Empty, string.Empty, DateTime.Now, DateTime.Now, new())
+        public WorkoutSummaryModel(Workout workout)
         {
+            RoutineTitle = workout.PlannedWorkout?.PlannedRoutine?.Title ?? string.Empty;
+            WorkoutTitle = workout.Title;
+            Start = workout.StartTime;
+            End = workout.EndTime;
 
+            ExerciseSummaries = new ObservableCollection<string>(workout.Exercises.Select(CreateSetSummary));
         }
 
-        public WorkoutSummaryModel(string routineTitle, string workoutTitle, DateTime start,
-            DateTime end, List<string> exerciseSummaries)
+        private string CreateSetSummary(Exercise exercise)
         {
-            RoutineTitle = routineTitle;
-            WorkoutTitle = workoutTitle;
-            Start = start;
-            End = end;
-            ExerciseSummaries = new ObservableCollection<string>(exerciseSummaries);
+            var lastSet = exercise.ExerciseSets
+                .Where(x => x.SetType == ExerciseSetType.Work)
+                .OrderBy(x => x.Id)
+                .LastOrDefault();
+
+            if (lastSet == null)
+                return exercise.Name;
+
+            if (lastSet.Weight == null)
+                return $"{exercise.Name} (final set: {lastSet.Repetitions})";
+
+            return $"{exercise.Name} (final set: {lastSet.Repetitions}x{lastSet.Weight})";
         }
     }
 }

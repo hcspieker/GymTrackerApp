@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GymTrackerApp.Data;
 using GymTrackerApp.Models;
 using System.Web;
 
@@ -65,6 +66,10 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task SaveAndExit()
         {
+            using var context = new GymTrackerContext();
+            context.Add(Workout.ConvertToEty());
+            await context.SaveChangesAsync();
+
             await Shell.Current.GoToAsync("../..");
         }
 

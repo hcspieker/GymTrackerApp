@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GymTrackerApp.Data.Entity;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.Models
@@ -16,6 +17,17 @@ namespace GymTrackerApp.Models
         public ExecuteWorkoutModel()
         {
             Title = string.Empty;
+        }
+
+        public Workout ConvertToEty()
+        {
+            return new Workout
+            {
+                Title = Title,
+                StartTime = StartTime,
+                EndTime = EndTime,
+                Exercises = Exercises.Select(x => x.ConvertToEty()).ToList()
+            };
         }
 
         public void RemoveSet(ExecuteSetModel set)
