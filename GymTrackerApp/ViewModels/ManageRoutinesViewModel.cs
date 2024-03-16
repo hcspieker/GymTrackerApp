@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using GymTrackerApp.Data;
 using GymTrackerApp.Models;
 using GymTrackerApp.Views;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.ViewModels
@@ -11,26 +13,29 @@ namespace GymTrackerApp.ViewModels
 
         public ManageRoutinesViewModel()
         {
-            Routines = new ObservableCollection<ManageRoutineModel>();
+            Routines = new();
+        }
 
-            for (int i = 0; i < 15; i++)
+        [RelayCommand]
+        async Task Appearing()
+        {
+            Routines.Clear();
+
+            using var context = new GymTrackerContext();
+            var entries = context.PlannedRoutines
+                .Include(x => x.PlannedWorkouts)
+                    .ThenInclude(x => x.PlannedExercises)
+                .Select(x => new ManageRoutineModel(x))
+                .ToList();
+
+            if (!entries.Any()) return;
+
+            foreach (var entry in entries)
             {
-                var workoutSummaries = new List<string>();
-
-                var amountOfWorkouts = Random.Shared.Next(1, 5);
-                for (int j = 0; j < amountOfWorkouts; j++)
-                {
-                    var amountOfExercises = Random.Shared.Next(1, 7);
-                    var workoutSummary = $"Workout {j + 1}: ";
-                    for (int k = 0; k < amountOfExercises; k++)
-                    {
-                        workoutSummary += $"Exercise {k + 1}, ";
-                    }
-                    workoutSummaries.Add(workoutSummary.Substring(0, workoutSummary.Length - 2));
-                }
-
-                Routines.Add(new ManageRoutineModel($"Routine {i + 1}", workoutSummaries));
+                Routines.Add(entry);
             }
+
+            await Notify("loaded routines");
         }
 
         [RelayCommand]

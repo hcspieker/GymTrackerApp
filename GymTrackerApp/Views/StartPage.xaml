@@ -63,7 +63,7 @@
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate x:DataType="x:String">
                                         <Label Text="{Binding .}"
-                                               Style="{StaticResource SmallLabel}" />
+                                               Style="{StaticResource SummaryLabel}" />
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
                             </VerticalStackLayout>

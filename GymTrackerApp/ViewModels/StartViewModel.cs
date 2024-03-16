@@ -18,7 +18,7 @@ namespace GymTrackerApp.ViewModels
         }
 
         [RelayCommand]
-        async void Appearing()
+        async Task Appearing()
         {
             Workouts.Clear();
 
