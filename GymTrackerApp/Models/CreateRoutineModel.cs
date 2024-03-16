@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GymTrackerApp.Data.Entity;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.Models
@@ -27,5 +28,23 @@ namespace GymTrackerApp.Models
 
             SelectedCategory = Categories.First();
         }
+
+        public PlannedRoutine ConvertToEty()
+        {
+            return new PlannedRoutine
+            {
+                Title = Title,
+                Categories = ConvertCategory(SelectedCategory.Value),
+                PlannedWorkouts = Workouts.Select(x => x.ConvertToEty()).ToList()
+            };
+        }
+
+        private PlannedRoutineCategory ConvertCategory(RoutineCategory value) => value switch
+        {
+            RoutineCategory.Endurance => PlannedRoutineCategory.Endurance,
+            RoutineCategory.Hypertrophy => PlannedRoutineCategory.Hypertrophy,
+            RoutineCategory.Strength => PlannedRoutineCategory.Strength,
+            _ => PlannedRoutineCategory.Unknown,
+        };
     }
 }

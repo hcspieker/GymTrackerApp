@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GymTrackerApp.Data;
 using GymTrackerApp.Models;
-using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.ViewModels
 {
@@ -84,7 +84,13 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task Save()
         {
-            await Shell.Current.DisplayAlert("", "Saved new routine", "close");
+            var plannedRoutine = Routine.ConvertToEty();
+
+            using var context = new GymTrackerContext();
+            context.Add(plannedRoutine);
+            await context.SaveChangesAsync();
+
+            await Notify("created new routine");
             await Shell.Current.GoToAsync("..");
         }
     }

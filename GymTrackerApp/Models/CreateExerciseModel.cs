@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GymTrackerApp.Data.Entity;
 
 namespace GymTrackerApp.Models
 {
@@ -20,6 +21,17 @@ namespace GymTrackerApp.Models
             WarmupSets = 2;
             WorkSets = 3;
             RepsPerWorkSet = 5;
+        }
+
+        public PlannedExercise ConvertToEty()
+        {
+            return new PlannedExercise
+            {
+                Name = Name,
+                AmountOfWarmupSets = WarmupSets,
+                AmountOfWorkSets = WorkSets,
+                RepsPerWorkSet = RepsPerWorkSet
+            };
         }
     }
 }

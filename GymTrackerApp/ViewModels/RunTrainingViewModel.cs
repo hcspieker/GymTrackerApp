@@ -70,6 +70,7 @@ namespace GymTrackerApp.ViewModels
             context.Add(Workout.ConvertToEty());
             await context.SaveChangesAsync();
 
+            await Notify("saved training");
             await Shell.Current.GoToAsync("../..");
         }
 

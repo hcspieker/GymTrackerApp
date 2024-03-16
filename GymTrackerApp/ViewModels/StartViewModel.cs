@@ -18,7 +18,7 @@ namespace GymTrackerApp.ViewModels
         }
 
         [RelayCommand]
-        void Appearing()
+        async void Appearing()
         {
             Workouts.Clear();
 
@@ -38,6 +38,8 @@ namespace GymTrackerApp.ViewModels
             {
                 Workouts.Add(entry);
             }
+
+            await Notify("loaded workouts");
         }
 
         [RelayCommand]

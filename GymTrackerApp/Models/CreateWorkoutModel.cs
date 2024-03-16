@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GymTrackerApp.Data.Entity;
 using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.Models
@@ -18,6 +19,15 @@ namespace GymTrackerApp.Models
         {
             Title = title;
             Exercises = new();
+        }
+
+        public PlannedWorkout ConvertToEty()
+        {
+            return new PlannedWorkout
+            {
+                Title = Title,
+                PlannedExercises = Exercises.Select(x => x.ConvertToEty()).ToList()
+            };
         }
     }
 }

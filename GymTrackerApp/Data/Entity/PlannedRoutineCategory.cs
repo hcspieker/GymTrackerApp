@@ -3,8 +3,8 @@
     public enum PlannedRoutineCategory
     {
         Unknown = 0,
-        Endurance = 1 << 0,
-        Hypertrophy = 2 << 1,
-        Strength = 3 << 2
+        Endurance = 1,
+        Hypertrophy = 2,
+        Strength = 3
     }
 }
