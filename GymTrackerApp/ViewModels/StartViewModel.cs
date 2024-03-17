@@ -49,14 +49,39 @@ namespace GymTrackerApp.ViewModels
         }
 
         [RelayCommand]
+        async Task Delete(WorkoutSummaryModel element)
+        {
+            var displayName = $"'{element.WorkoutTitle}' (" +
+                (!string.IsNullOrWhiteSpace(element.RoutineTitle) ?
+                $"routine: '{element.RoutineTitle}', " : "") +
+                $"{element.Start:dd.MM.yyyy HH:mm} - {element.End:HH:mm})";
+
+            var continueDeleting = await Shell.Current.DisplayAlert("Confirm",
+                $"Do you really want to delete workout {displayName}?",
+                "yes", "no");
+
+            if (!continueDeleting)
+                return;
+
+            using var context = new GymTrackerContext();
+            var entry = context.Workouts.Single(x => x.Id == element.Id);
+            context.Remove(entry);
+            await context.SaveChangesAsync();
+
+            Workouts.Remove(element);
+
+            await Toast.Make($"deleted workout {displayName}").Show();
+        }
+
+        [RelayCommand]
         async Task Details(WorkoutSummaryModel element)
         {
-            var displayName = !string.IsNullOrWhiteSpace(element.RoutineTitle) ?
-                $"{element.RoutineTitle} - {element.WorkoutTitle}" :
-                element.WorkoutTitle;
+            var displayName = $"'{element.WorkoutTitle}' (" +
+                (!string.IsNullOrWhiteSpace(element.RoutineTitle) ?
+                $"routine: '{element.RoutineTitle}', " : "") +
+                $"{element.Start:dd.MM.yyyy HH:mm} - {element.End:HH:mm})";
 
-            var message = $"Clicked on details of {displayName}: " +
-                $"{element.Start:dd.MM.yyyy HH:mm} - {element.End:HH:mm}";
+            var message = $"Clicked on details of workout {displayName}";
 
             await Toast.Make(message).Show();
         }

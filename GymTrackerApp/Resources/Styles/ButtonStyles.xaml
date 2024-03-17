@@ -58,6 +58,18 @@
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
     </Style>
+    <Style x:Key="MiniDetailsButton"
+           TargetType="Button"
+           BasedOn="{StaticResource MiniButton}">
+        <Setter Property="FontFamily"
+                Value="FAS" />
+        <Setter Property="Text"
+                Value="{x:Static util:FontAwesomeWrapper.Details}" />
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray500}}" />
+        <Setter Property="BackgroundColor"
+                Value="Transparent" />
+    </Style>
     <Style x:Key="MiniDeleteButton"
            TargetType="Button"
            BasedOn="{StaticResource MiniButton}">

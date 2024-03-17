@@ -9,5 +9,6 @@
         public static string Add = "\u002b";
         public static string Edit = "\uf304";
         public static string Save = "\uf0c7";
+        public static string Details = "\uf06e";
     }
 }

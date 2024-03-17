@@ -6,8 +6,18 @@ namespace GymTrackerApp.Models
 {
     public partial class WorkoutSummaryModel : ObservableObject
     {
+        public int Id { get; }
+
         [ObservableProperty]
-        private string routineTitle, workoutTitle;
+        [NotifyPropertyChangedFor(nameof(UsingRoutine))]
+        [NotifyPropertyChangedFor(nameof(NotUsingRoutine))]
+        private string routineTitle;
+
+        [ObservableProperty]
+        private string workoutTitle;
+
+        public bool UsingRoutine => !string.IsNullOrWhiteSpace(RoutineTitle);
+        public bool NotUsingRoutine => !UsingRoutine;
 
         [ObservableProperty]
         private DateTime? start, end;
@@ -16,6 +26,7 @@ namespace GymTrackerApp.Models
 
         public WorkoutSummaryModel(Workout workout)
         {
+            Id = workout.Id;
             RoutineTitle = workout.PlannedWorkout?.PlannedRoutine?.Title ?? string.Empty;
             WorkoutTitle = workout.Title;
             Start = workout.StartTime;
