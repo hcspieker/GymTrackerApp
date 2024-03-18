@@ -76,14 +76,8 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task Details(WorkoutSummaryModel element)
         {
-            var displayName = $"'{element.WorkoutTitle}' (" +
-                (!string.IsNullOrWhiteSpace(element.RoutineTitle) ?
-                $"routine: '{element.RoutineTitle}', " : "") +
-                $"{element.Start:dd.MM.yyyy HH:mm} - {element.End:HH:mm})";
-
-            var message = $"Clicked on details of workout {displayName}";
-
-            await Toast.Make(message).Show();
+            await Shell.Current.GoToAsync(nameof(TrainingDetailPage),
+                new Dictionary<string, object> { { "id", element.Id.ToString() } });
         }
     }
 }

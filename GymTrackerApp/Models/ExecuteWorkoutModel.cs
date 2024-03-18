@@ -10,13 +10,35 @@ namespace GymTrackerApp.Models
         private string title;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Duration))]
         private DateTime? startTime, endTime;
+
+        public string Duration => CalculateDuration();
+
+        private string CalculateDuration()
+        {
+            if (!StartTime.HasValue || !EndTime.HasValue)
+                return "unknown";
+
+            var duration = EndTime.Value - StartTime.Value;
+
+            return $"{duration.Hours}h {duration.Minutes}m {duration.Seconds}s";
+        }
 
         public ObservableCollection<ExecuteExerciseModel> Exercises { get; } = new();
 
         public ExecuteWorkoutModel()
         {
             Title = string.Empty;
+        }
+
+        public ExecuteWorkoutModel(Workout entry)
+        {
+            Title = entry.Title;
+            StartTime = entry.StartTime;
+            EndTime = entry.EndTime;
+            Exercises = new ObservableCollection<ExecuteExerciseModel>(entry.Exercises
+                .Select(x => new ExecuteExerciseModel(x)));
         }
 
         public Workout ConvertToEty()

@@ -21,6 +21,17 @@ namespace GymTrackerApp.Models
             Name = name;
         }
 
+        public ExecuteExerciseModel(Exercise entry)
+        {
+            Name = entry.Name;
+            WarmupSets = new ObservableCollection<ExecuteSetModel>(entry.ExerciseSets
+                .Where(x => x.SetType == ExerciseSetType.Warmup)
+                .Select(x => new ExecuteSetModel(x)));
+            WorkSets = new ObservableCollection<ExecuteSetModel>(entry.ExerciseSets
+                .Where(x => x.SetType == ExerciseSetType.Work)
+                .Select(x => new ExecuteSetModel(x)));
+        }
+
         public Exercise ConvertToEty()
         {
             var result = new Exercise { Name = Name };

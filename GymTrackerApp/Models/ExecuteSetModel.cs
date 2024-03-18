@@ -37,6 +37,12 @@ namespace GymTrackerApp.Models
             }
         }
 
+        public ExecuteSetModel(ExerciseSet entry)
+        {
+            Repetitions = entry.Repetitions;
+            Weight = entry.Weight;
+        }
+
         public override string ToString()
         {
             if (Weight.HasValue)

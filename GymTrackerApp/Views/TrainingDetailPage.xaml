@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:models="clr-namespace:GymTrackerApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GymTrackerApp.Views.TrainingDetailPage"
+             x:DataType="viewModels:TrainingDetailViewModel"
+             Title="{Binding Workout.Title}">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Frame>
+                <StackLayout>
+                    <Label Text="General"
+                           Style="{StaticResource TitleLabel}"
+                           HorizontalOptions="Fill" />
+                    <Label Text="{Binding Workout.StartTime, StringFormat='Date: {0:dd.MM.yyyy}'}"
+                           Style="{StaticResource SmallLabel}" />
+                    <Label Style="{StaticResource SmallLabel}">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}Time: {0:HH:mm} - {1:HH:mm}">
+                                <Binding Path="Workout.StartTime" />
+                                <Binding Path="Workout.EndTime" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Label Text="{Binding Workout.Duration, StringFormat='Duration: {0}'}"
+                           Style="{StaticResource SmallLabel}" />
+                </StackLayout>
+            </Frame>
+            <CollectionView ItemsSource="{Binding Workout.Exercises}">
+                <CollectionView.EmptyView>
+                    <Label Text="No exercises"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           FontAttributes="Italic" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ExecuteExerciseModel">
+                        <Frame>
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}"
+                                       Style="{StaticResource TitleLabel}"
+                                       HorizontalOptions="Fill" />
+                                <Grid ColumnDefinitions="*,*"
+                                      RowDefinitions="auto,2,*"
+                                      ColumnSpacing="10">
+                                    <Label Text="Warmup"
+                                           VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="Work"
+                                           VerticalOptions="Center" />
+                                    <BoxView Grid.Row="1"
+                                             Grid.ColumnSpan="2"
+                                             Style="{StaticResource HorizontalLine}" />
+                                    <VerticalStackLayout Grid.Row="2"
+                                                         BindableLayout.ItemsSource="{Binding WarmupSets}">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate x:DataType="models:ExecuteSetModel">
+                                                <Label Text="{Binding .}"
+                                                       VerticalOptions="Center" />
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Row="2"
+                                                         Grid.Column="1"
+                                                         BindableLayout.ItemsSource="{Binding WorkSets}">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate x:DataType="models:ExecuteSetModel">
+                                                <Label Text="{Binding .}"
+                                                       VerticalOptions="Center" />
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
