@@ -4,7 +4,7 @@ using GymTrackerApp.Views;
 
 namespace GymTrackerApp.ViewModels
 {
-    public partial class StartTrainingViewModel : BaseViewModel
+    public partial class TrainingStartViewModel : BaseViewModel
     {
         [ObservableProperty, NotifyPropertyChangedFor(nameof(NotUsePlan)),
             NotifyPropertyChangedFor(nameof(StartIsVisible))]
@@ -17,7 +17,7 @@ namespace GymTrackerApp.ViewModels
         [ObservableProperty, NotifyPropertyChangedFor(nameof(StartIsVisible))]
         private string workoutTitle;
 
-        public StartTrainingViewModel()
+        public TrainingStartViewModel()
         {
             UsePlan = true;
             WorkoutTitle = string.Empty;
@@ -45,7 +45,7 @@ namespace GymTrackerApp.ViewModels
                 return;
             }
 
-            await Shell.Current.GoToAsync(nameof(RunTrainingPage), new Dictionary<string, object> { { "title", WorkoutTitle } });
+            await Shell.Current.GoToAsync(nameof(TrainingExecutePage), new Dictionary<string, object> { { "title", WorkoutTitle } });
         }
     }
 }

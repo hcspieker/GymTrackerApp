@@ -6,7 +6,7 @@ using GymTrackerApp.Models;
 namespace GymTrackerApp.ViewModels
 {
     [QueryProperty(nameof(RoutineTitle), "Title")]
-    public partial class CreateRoutineViewModel : BaseViewModel
+    public partial class RoutineCreateViewModel : BaseViewModel
     {
         public string RoutineTitle
         {
@@ -17,7 +17,7 @@ namespace GymTrackerApp.ViewModels
         [ObservableProperty]
         private CreateRoutineModel routine;
 
-        public CreateRoutineViewModel()
+        public RoutineCreateViewModel()
         {
             Routine = new();
         }

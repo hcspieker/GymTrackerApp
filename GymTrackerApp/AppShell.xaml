@@ -52,11 +52,11 @@
         </ShellContent.FlyoutIcon>
     </ShellContent>
     <ShellContent Title="Manage routines"
-                  ContentTemplate="{DataTemplate views:ManageRoutinesPage}"
-                  Route="ManageRoutinesPage">
+                  ContentTemplate="{DataTemplate views:RoutineListPage}"
+                  Route="RoutineListPage">
         <ShellContent.FlyoutIcon>
             <FontImageSource FontFamily="FAS"
-                             Glyph="{x:Static util:FontAwesomeWrapper.ManageRoutines}"
+                             Glyph="{x:Static util:FontAwesomeWrapper.RoutineList}"
                              Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         </ShellContent.FlyoutIcon>
     </ShellContent>

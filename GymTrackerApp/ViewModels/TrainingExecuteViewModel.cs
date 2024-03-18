@@ -6,7 +6,7 @@ using System.Web;
 
 namespace GymTrackerApp.ViewModels
 {
-    public partial class RunTrainingViewModel : BaseViewModel, IQueryAttributable
+    public partial class TrainingExecuteViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
         private ExecuteWorkoutModel workout;
@@ -21,7 +21,7 @@ namespace GymTrackerApp.ViewModels
         public bool WorkoutStarted => State == RunWorkoutState.Started;
         public bool WorkoutFinished => State == RunWorkoutState.Finished;
 
-        public RunTrainingViewModel()
+        public TrainingExecuteViewModel()
         {
             State = RunWorkoutState.Waiting;
             Workout = new ExecuteWorkoutModel();
@@ -103,7 +103,7 @@ namespace GymTrackerApp.ViewModels
                 return;
 
             try
-    {
+            {
                 Workout.Exercises.Remove(exercise);
             }
             catch (Exception)

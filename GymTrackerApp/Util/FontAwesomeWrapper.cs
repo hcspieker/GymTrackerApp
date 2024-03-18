@@ -3,7 +3,7 @@
     public static class FontAwesomeWrapper
     {
         public static string Home = "\uf015";
-        public static string ManageRoutines = "\uf03a";
+        public static string RoutineList = "\uf03a";
 
         public static string Delete = "\uf1f8";
         public static string Add = "\u002b";

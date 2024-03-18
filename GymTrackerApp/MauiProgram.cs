@@ -25,16 +25,16 @@ namespace GymTrackerApp
 #endif
 
             builder.Services.AddSingleton<StartViewModel>();
-            builder.Services.AddSingleton<ManageRoutinesViewModel>();
-            builder.Services.AddTransient<CreateRoutineViewModel>();
-            builder.Services.AddTransient<StartTrainingViewModel>();
-            builder.Services.AddTransient<RunTrainingViewModel>();
+            builder.Services.AddSingleton<RoutineListViewModel>();
+            builder.Services.AddTransient<RoutineCreateViewModel>();
+            builder.Services.AddTransient<TrainingStartViewModel>();
+            builder.Services.AddTransient<TrainingExecuteViewModel>();
 
             builder.Services.AddSingleton<StartPage>();
-            builder.Services.AddSingleton<ManageRoutinesPage>();
-            builder.Services.AddTransient<CreateRoutinePage>();
-            builder.Services.AddTransient<StartTrainingPage>();
-            builder.Services.AddTransient<RunTrainingPage>();
+            builder.Services.AddSingleton<RoutineListPage>();
+            builder.Services.AddTransient<RoutineCreatePage>();
+            builder.Services.AddTransient<TrainingStartPage>();
+            builder.Services.AddTransient<TrainingExecutePage>();
 
             return builder.Build();
         }

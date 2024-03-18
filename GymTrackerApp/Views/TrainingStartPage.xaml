@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GymTrackerApp.Views.StartTrainingPage"
-             x:DataType="viewModels:StartTrainingViewModel"
+             x:Class="GymTrackerApp.Views.TrainingStartPage"
+             x:DataType="viewModels:TrainingStartViewModel"
              Title="Choose mode">
     <Grid RowDefinitions="*,50"
           ColumnDefinitions="*,*"

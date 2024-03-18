@@ -3,8 +3,8 @@
              xmlns:models="clr-namespace:GymTrackerApp.Models"
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GymTrackerApp.Views.RunTrainingPage"
-             x:DataType="viewModels:RunTrainingViewModel"
+             x:Class="GymTrackerApp.Views.TrainingExecutePage"
+             x:DataType="viewModels:TrainingExecuteViewModel"
              Title="{Binding Workout.Title}">
     <Grid RowDefinitions="*,2,auto">
         <ScrollView>
@@ -23,7 +23,7 @@
                                     <HorizontalStackLayout>
                                         <Button Style="{StaticResource MiniDeleteButton}"
                                                 Margin="0"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RunTrainingViewModel}}, Path=DeleteExerciseCommand}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TrainingExecuteViewModel}}, Path=DeleteExerciseCommand}"
                                                 CommandParameter="{Binding .}" />
                                         <Label Text="{Binding Name}"
                                                Style="{StaticResource TitleLabel}"
@@ -36,14 +36,14 @@
                                                VerticalOptions="Center" />
                                         <Button Grid.Column="1"
                                                 Style="{StaticResource MiniAddButton}"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RunTrainingViewModel}}, Path=AddWarmupSetCommand}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TrainingExecuteViewModel}}, Path=AddWarmupSetCommand}"
                                                 CommandParameter="{Binding .}" />
                                         <Label Grid.Column="2"
                                                Text="Work"
                                                VerticalOptions="Center" />
                                         <Button Grid.Column="3"
                                                 Style="{StaticResource MiniAddButton}"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RunTrainingViewModel}}, Path=AddWorkoutSetCommand}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TrainingExecuteViewModel}}, Path=AddWorkoutSetCommand}"
                                                 CommandParameter="{Binding .}" />
                                         <BoxView Grid.Row="1"
                                                  Grid.ColumnSpan="4"
@@ -56,7 +56,7 @@
                                                     <HorizontalStackLayout>
                                                         <Button Style="{StaticResource MiniDeleteButton}"
                                                                 Margin="0"
-                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RunTrainingViewModel}}, Path=DeleteWarmupSetCommand}"
+                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TrainingExecuteViewModel}}, Path=DeleteWarmupSetCommand}"
                                                                 CommandParameter="{Binding .}" />
                                                         <Label Text="{Binding .}"
                                                                VerticalOptions="Center" />
@@ -73,7 +73,7 @@
                                                     <HorizontalStackLayout>
                                                         <Button Style="{StaticResource MiniDeleteButton}"
                                                                 Margin="0"
-                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RunTrainingViewModel}}, Path=DeleteWorkoutSetCommand}"
+                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TrainingExecuteViewModel}}, Path=DeleteWorkoutSetCommand}"
                                                                 CommandParameter="{Binding .}" />
                                                         <Label Text="{Binding .}"
                                                                VerticalOptions="Center" />

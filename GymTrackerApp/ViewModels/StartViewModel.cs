@@ -43,9 +43,9 @@ namespace GymTrackerApp.ViewModels
         }
 
         [RelayCommand]
-        async Task StartTraining()
+        async Task TrainingStart()
         {
-            await Shell.Current.GoToAsync(nameof(StartTrainingPage));
+            await Shell.Current.GoToAsync(nameof(TrainingStartPage));
         }
 
         [RelayCommand]

@@ -4,8 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:util="clr-namespace:GymTrackerApp.Util"
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
-             x:Class="GymTrackerApp.Views.CreateRoutinePage"
-             x:DataType="viewModels:CreateRoutineViewModel"
+             x:Class="GymTrackerApp.Views.RoutineCreatePage"
+             x:DataType="viewModels:RoutineCreateViewModel"
              Title="Create Routine">
     <ScrollView>
         <VerticalStackLayout Padding="10">
@@ -44,7 +44,7 @@
                                       RowDefinitions="*,*">
                                     <HorizontalStackLayout>
                                         <HorizontalStackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=EditWorkoutTitleCommand}"
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineCreateViewModel}}, Path=EditWorkoutTitleCommand}"
                                                                   CommandParameter="{Binding .}" />
                                         </HorizontalStackLayout.GestureRecognizers>
                                         <Label  Text="{Binding Title}"
@@ -53,7 +53,7 @@
                                     </HorizontalStackLayout>
                                     <Button Grid.Column="1"
                                             Style="{StaticResource MiniDeleteButton}"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=DeleteWorkoutCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineCreateViewModel}}, Path=DeleteWorkoutCommand}"
                                             CommandParameter="{Binding .}" />
                                 </Grid>
                                 <BoxView Style="{StaticResource HorizontalLine}" />
@@ -73,7 +73,7 @@
                                                 <Button Grid.Column="1"
                                                         HorizontalOptions="End"
                                                         Style="{StaticResource MiniDeleteButton}"
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=DeleteExerciseCommand}"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineCreateViewModel}}, Path=DeleteExerciseCommand}"
                                                         CommandParameter="{Binding .}" />
                                                 <Label Grid.Row="1"
                                                        Text="Warmup"
@@ -118,7 +118,7 @@
                                     <Button Grid.Column="1"
                                             Style="{StaticResource MiniButton}"
                                             Text="Add exercise"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CreateRoutineViewModel}}, Path=AddExerciseCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineCreateViewModel}}, Path=AddExerciseCommand}"
                                             CommandParameter="{Binding .}" />
                                 </Grid>
                             </VerticalStackLayout>

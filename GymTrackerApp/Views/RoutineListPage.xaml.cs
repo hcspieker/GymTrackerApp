@@ -2,9 +2,9 @@ using GymTrackerApp.ViewModels;
 
 namespace GymTrackerApp.Views;
 
-public partial class CreateRoutinePage : ContentPage
+public partial class RoutineListPage : ContentPage
 {
-    public CreateRoutinePage(CreateRoutineViewModel viewModel)
+    public RoutineListPage(RoutineListViewModel viewModel)
     {
         InitializeComponent();
 

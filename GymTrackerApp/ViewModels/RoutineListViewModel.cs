@@ -7,11 +7,11 @@ using System.Collections.ObjectModel;
 
 namespace GymTrackerApp.ViewModels
 {
-    public partial class ManageRoutinesViewModel : BaseViewModel
+    public partial class RoutineListViewModel : BaseViewModel
     {
         public ObservableCollection<ManageRoutineModel> Routines { get; set; }
 
-        public ManageRoutinesViewModel()
+        public RoutineListViewModel()
         {
             Routines = new();
         }
@@ -50,7 +50,7 @@ namespace GymTrackerApp.ViewModels
                 return;
             }
 
-            await Shell.Current.GoToAsync(nameof(CreateRoutinePage), true, new Dictionary<string, object> { { "Title", title } });
+            await Shell.Current.GoToAsync(nameof(RoutineCreatePage), true, new Dictionary<string, object> { { "Title", title } });
         }
 
         [RelayCommand]
