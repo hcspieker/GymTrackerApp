@@ -48,13 +48,30 @@ namespace GymTrackerApp.ViewModels
                     .Single(x => x.Id == Id);
 
                 Workout = new ExecuteWorkoutModel(entry);
-                await Notify("loaded workouts");
+                await Notify("loaded workout");
             }
             catch (Exception)
             {
                 await Notify($"error while loading workout {Id}");
                 await Shell.Current.GoToAsync("..");
             }
+        }
+
+        [RelayCommand]
+        async Task Delete()
+        {
+            var delete = await Shell.Current.DisplayAlert("Warning",
+                "Do you really want to delete this workout?", "yes", "no");
+
+            if (!delete)
+                return;
+
+            using var context = new GymTrackerContext();
+            var entry = context.Workouts.Single(x => x.Id == Id);
+            context.Remove(entry);
+            await context.SaveChangesAsync();
+
+            await Shell.Current.GoToAsync("..");
         }
     }
 }
