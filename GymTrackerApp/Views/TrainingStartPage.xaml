@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:models="clr-namespace:GymTrackerApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GymTrackerApp.Views.TrainingStartPage"
-             x:DataType="viewModels:TrainingStartViewModel"
              Title="Choose mode">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
     <Grid RowDefinitions="*,50"
           ColumnDefinitions="*,*"
           ColumnSpacing="5"
@@ -17,21 +22,31 @@
                 <CheckBox IsChecked="{Binding UsePlan}" />
             </HorizontalStackLayout>
             <BoxView Style="{StaticResource HorizontalLine}" />
-            <Label IsVisible="{Binding UsePlan}"
-                   Text="Using a plan (not implemented)"
-                   Style="{StaticResource TitleLabel}" />
-            <Label IsVisible="{Binding NotUsePlan}"
-                   Text="Not using a plan"
-                   Style="{StaticResource TitleLabel}" />
-            <Grid ColumnDefinitions="auto,*"
-                  IsVisible="{Binding NotUsePlan}">
-                <Label Text="Workout title:"
-                       VerticalOptions="Center"
-                       FontSize="Medium" />
-                <Entry Grid.Column="1"
-                       Text="{Binding WorkoutTitle}"
-                       Keyboard="Text" />
-            </Grid>
+            <VerticalStackLayout IsVisible="{Binding UsePlan}">
+                <Label Text="Using a plan"
+                       Style="{StaticResource TitleLabel}" />
+                <Picker Title="Select a routine"
+                        ItemsSource="{Binding Routines}"
+                        ItemDisplayBinding="{Binding Title}"
+                        SelectedItem="{Binding SelectedRoutine}" />
+                <Picker Title="Select a workout of the routine"
+                        IsVisible="{Binding ChosenRoutine}"
+                        ItemsSource="{Binding Workouts}"
+                        ItemDisplayBinding="{Binding Title}"
+                        SelectedItem="{Binding SelectedWorkout}" />
+            </VerticalStackLayout>
+            <VerticalStackLayout IsVisible="{Binding NotUsePlan}">
+                <Label Text="Freestyle training (not using a plan)"
+                       Style="{StaticResource TitleLabel}" />
+                <Grid ColumnDefinitions="auto,*">
+                    <Label Text="Workout title:"
+                           VerticalOptions="Center"
+                           FontSize="Medium" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding WorkoutTitle}"
+                           Keyboard="Text" />
+                </Grid>
+            </VerticalStackLayout>
         </VerticalStackLayout>
         <Button Grid.Column="1"
                 Grid.Row="1"

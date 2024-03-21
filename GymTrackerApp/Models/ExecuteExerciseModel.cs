@@ -6,8 +6,10 @@ namespace GymTrackerApp.Models
 {
     public partial class ExecuteExerciseModel : BaseModel
     {
+        private int? PlannedExerciseId;
+
         [ObservableProperty]
-        private string name;
+        private string name, warmupSetLabel, workSetLabel;
 
         public ObservableCollection<ExecuteSetModel> WarmupSets { get; } = new();
         public ObservableCollection<ExecuteSetModel> WorkSets { get; } = new();
@@ -19,17 +21,31 @@ namespace GymTrackerApp.Models
         public ExecuteExerciseModel(string name)
         {
             Name = name;
+
+            WarmupSetLabel = "Warm-up";
+            WorkSetLabel = "Work";
         }
 
-        public ExecuteExerciseModel(Exercise entry)
+        public ExecuteExerciseModel(Exercise entry) : this(entry.Name)
         {
-            Name = entry.Name;
             WarmupSets = new ObservableCollection<ExecuteSetModel>(entry.ExerciseSets
                 .Where(x => x.SetType == ExerciseSetType.Warmup)
                 .Select(x => new ExecuteSetModel(x)));
             WorkSets = new ObservableCollection<ExecuteSetModel>(entry.ExerciseSets
                 .Where(x => x.SetType == ExerciseSetType.Work)
                 .Select(x => new ExecuteSetModel(x)));
+        }
+
+        public ExecuteExerciseModel(PlannedExercise exercise)
+        {
+            PlannedExerciseId = exercise.Id;
+            Name = exercise.Name;
+
+            WarmupSetLabel = $"Warm-up ({exercise.AmountOfWarmupSets} sets)";
+            WorkSetLabel = $"Work ({exercise.AmountOfWorkSets}x{exercise.RepsPerWorkSet})";
+
+            WarmupSets = new();
+            WorkSets = new();
         }
 
         public Exercise ConvertToEty()

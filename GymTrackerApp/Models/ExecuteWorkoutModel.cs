@@ -6,6 +6,8 @@ namespace GymTrackerApp.Models
 {
     public partial class ExecuteWorkoutModel : BaseModel
     {
+        private int? PlannedWorkoutId;
+
         [ObservableProperty]
         private string title;
 
@@ -41,10 +43,19 @@ namespace GymTrackerApp.Models
                 .Select(x => new ExecuteExerciseModel(x)));
         }
 
+        public ExecuteWorkoutModel(PlannedWorkout workout)
+        {
+            PlannedWorkoutId = workout.Id;
+            Title = workout.Title;
+            Exercises = new ObservableCollection<ExecuteExerciseModel>(
+                workout.PlannedExercises.Select(x => new ExecuteExerciseModel(x)));
+        }
+
         public Workout ConvertToEty()
         {
             return new Workout
             {
+                PlannedWorkoutId = PlannedWorkoutId,
                 Title = Title,
                 StartTime = StartTime,
                 EndTime = EndTime,

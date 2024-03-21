@@ -2,12 +2,15 @@
 using CommunityToolkit.Mvvm.Input;
 using GymTrackerApp.Data;
 using GymTrackerApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Web;
 
 namespace GymTrackerApp.ViewModels
 {
     public partial class TrainingExecuteViewModel : BaseViewModel, IQueryAttributable
     {
+        private int? WorkoutId;
+
         [ObservableProperty]
         private ExecuteWorkoutModel workout;
 
@@ -29,8 +32,31 @@ namespace GymTrackerApp.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if (query.ContainsKey("title"))
+            if (query.ContainsKey("id"))
+            {
+                WorkoutId = Convert.ToInt32(HttpUtility.UrlDecode(query["id"].ToString() ?? "0"));
+            }
+            else if (query.ContainsKey("title"))
+            {
                 Workout.Title = HttpUtility.UrlDecode(query["title"].ToString() ?? "");
+            }
+        }
+
+        [RelayCommand]
+        async Task Appearing()
+        {
+            if (WorkoutId == null || WorkoutId == 0)
+                return;
+
+            using var context = new GymTrackerContext();
+            var entry = context.PlannedWorkouts
+                .Include(x => x.PlannedRoutine)
+                .Include(x => x.PlannedExercises)
+                .Single(x => x.Id == WorkoutId);
+
+            Workout = new ExecuteWorkoutModel(entry);
+
+            await Notify("loaded workout");
         }
 
         #region flow
@@ -86,7 +112,7 @@ namespace GymTrackerApp.ViewModels
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                await Shell.Current.DisplayAlert("", "Cancelled add exercise", "close");
+                await Shell.Current.DisplayAlert("", "Canceled add exercise", "close");
                 return;
             }
 
@@ -108,7 +134,7 @@ namespace GymTrackerApp.ViewModels
             }
             catch (Exception)
             {
-                await Shell.Current.DisplayAlert($"Delete exercise {exercise.Name}", "An error occured", "close");
+                await Shell.Current.DisplayAlert($"Delete exercise {exercise.Name}", "An error occurred", "close");
             }
         }
 
@@ -119,7 +145,7 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task AddWarmupSet(ExecuteExerciseModel exercise)
         {
-            await TryAddSet("warmup", exercise.WarmupSets.Add);
+            await TryAddSet("warm-up", exercise.WarmupSets.Add);
         }
 
         [RelayCommand]
@@ -148,14 +174,14 @@ namespace GymTrackerApp.ViewModels
             }
             catch (Exception)
             {
-                await Shell.Current.DisplayAlert($"Add {setType} set", "An error occured", "close");
+                await Shell.Current.DisplayAlert($"Add {setType} set", "An error occurred", "close");
             }
         }
 
         [RelayCommand]
         async Task DeleteWarmupSet(ExecuteSetModel set)
         {
-            await TryDeleteSet("warmup", set);
+            await TryDeleteSet("warm-up", set);
         }
 
         [RelayCommand]
@@ -178,7 +204,7 @@ namespace GymTrackerApp.ViewModels
             }
             catch (Exception)
             {
-                await Shell.Current.DisplayAlert($"Delete {setType} set {set}", "An error occured", "close");
+                await Shell.Current.DisplayAlert($"Delete {setType} set {set}", "An error occurred", "close");
             }
         }
 

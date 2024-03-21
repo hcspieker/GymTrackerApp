@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:models="clr-namespace:GymTrackerApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GymTrackerApp.Views.TrainingExecutePage"
              x:DataType="viewModels:TrainingExecuteViewModel"
              Title="{Binding Workout.Title}">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
     <Grid RowDefinitions="*,2,auto">
         <ScrollView>
             <VerticalStackLayout Padding="10">
@@ -32,14 +37,14 @@
                                     <Grid ColumnDefinitions="*,40,*,40"
                                           RowDefinitions="auto,2,*"
                                           ColumnSpacing="10">
-                                        <Label Text="Warmup"
+                                        <Label Text="{Binding WarmupSetLabel}"
                                                VerticalOptions="Center" />
                                         <Button Grid.Column="1"
                                                 Style="{StaticResource MiniAddButton}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TrainingExecuteViewModel}}, Path=AddWarmupSetCommand}"
                                                 CommandParameter="{Binding .}" />
                                         <Label Grid.Column="2"
-                                               Text="Work"
+                                               Text="{Binding WorkSetLabel}"
                                                VerticalOptions="Center" />
                                         <Button Grid.Column="3"
                                                 Style="{StaticResource MiniAddButton}"
