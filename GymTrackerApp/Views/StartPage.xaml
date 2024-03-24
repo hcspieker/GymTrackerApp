@@ -26,28 +26,30 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:WorkoutSummaryModel">
                     <Frame>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:StartViewModel}}, Path=DetailsCommand}"
+                                                  CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
                         <VerticalStackLayout>
-                            <Grid ColumnDefinitions="*,*"
-                                  RowDefinitions="auto,*,*,2,auto">
-                                <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:StartViewModel}}, Path=DeleteCommand}"
-                                        CommandParameter="{Binding .}"
-                                        HorizontalOptions="Start"
-                                        Margin="0"
-                                        Padding="0"
-                                        Style="{StaticResource MiniDeleteButton}" />
-                                <Button Grid.Column="1"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:StartViewModel}}, Path=DetailsCommand}"
-                                        CommandParameter="{Binding .}"
-                                        Margin="0"
-                                        HorizontalOptions="End"
-                                        Padding="0"
-                                        Style="{StaticResource MiniDetailsButton}" />
-                                <Label Grid.Row="2"
-                                       Text="{Binding Start, StringFormat='{0:dd.MM.yyyy}'}"
-                                       Style="{StaticResource SmallLabel}"
-                                       HorizontalTextAlignment="Start" />
-                                <Label Grid.Row="2"
-                                       Grid.Column="1"
+                            <Label HorizontalTextAlignment="Center"
+                                   IsVisible="{Binding UsingRoutine}"
+                                   Style="{StaticResource TitleLabel}">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="RoutineTitle" />
+                                        <Binding Path="WorkoutTitle" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            <Label IsVisible="{Binding NotUsingRoutine}"
+                                   Text="{Binding WorkoutTitle}"
+                                   Style="{StaticResource TitleLabel}"
+                                   HorizontalTextAlignment="Center" />
+                            <Grid ColumnDefinitions="*,*">
+                                <Label   Text="{Binding Start, StringFormat='{0:dd.MM.yyyy}'}"
+                                         Style="{StaticResource SmallLabel}"
+                                         HorizontalTextAlignment="Start" />
+                                <Label Grid.Column="1"
                                        Style="{StaticResource SmallLabel}"
                                        HorizontalTextAlignment="End">
                                     <Label.Text>
@@ -57,23 +59,6 @@
                                         </MultiBinding>
                                     </Label.Text>
                                 </Label>
-                                <Label Grid.Row="1"
-                                       IsVisible="{Binding UsingRoutine}"
-                                       Text="{Binding RoutineTitle}"
-                                       Style="{StaticResource TitleLabel}"
-                                       HorizontalTextAlignment="Start" />
-                                <Label Grid.Column="1"
-                                       Grid.Row="1"
-                                       IsVisible="{Binding UsingRoutine}"
-                                       Text="{Binding WorkoutTitle}"
-                                       Style="{StaticResource TitleLabel}"
-                                       HorizontalTextAlignment="End" />
-                                <Label Grid.ColumnSpan="2"
-                                       Grid.Row="1"
-                                       IsVisible="{Binding NotUsingRoutine}"
-                                       Text="{Binding WorkoutTitle}"
-                                       Style="{StaticResource TitleLabel}"
-                                       HorizontalTextAlignment="Center" />
                             </Grid>
                             <BoxView Style="{StaticResource HorizontalLine}" />
                             <VerticalStackLayout BindableLayout.ItemsSource="{Binding ExerciseSummaries}">

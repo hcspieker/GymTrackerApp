@@ -82,11 +82,10 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Frame>
-                <Button Command="{Binding DeleteCommand}"
-                        Style="{StaticResource RedButton}"
-                        Text="Delete workout" />
-            </Frame>
+            <Button Command="{Binding DeleteCommand}"
+                    Margin="5,5,5,30"
+                    Style="{StaticResource RedButton}"
+                    Text="Delete workout" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

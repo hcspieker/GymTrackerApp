@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using GymTrackerApp.Data;
 using GymTrackerApp.Models;
 using GymTrackerApp.Views;
@@ -46,31 +45,6 @@ namespace GymTrackerApp.ViewModels
         async Task TrainingStart()
         {
             await Shell.Current.GoToAsync(nameof(TrainingStartPage));
-        }
-
-        [RelayCommand]
-        async Task Delete(WorkoutSummaryModel element)
-        {
-            var displayName = $"'{element.WorkoutTitle}' (" +
-                (!string.IsNullOrWhiteSpace(element.RoutineTitle) ?
-                $"routine: '{element.RoutineTitle}', " : "") +
-                $"{element.Start:dd.MM.yyyy HH:mm} - {element.End:HH:mm})";
-
-            var continueDeleting = await Shell.Current.DisplayAlert("Confirm",
-                $"Do you really want to delete workout {displayName}?",
-                "yes", "no");
-
-            if (!continueDeleting)
-                return;
-
-            using var context = new GymTrackerContext();
-            var entry = context.Workouts.Single(x => x.Id == element.Id);
-            context.Remove(entry);
-            await context.SaveChangesAsync();
-
-            Workouts.Remove(element);
-
-            await Toast.Make($"deleted workout {displayName}").Show();
         }
 
         [RelayCommand]
