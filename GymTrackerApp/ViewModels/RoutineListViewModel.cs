@@ -56,7 +56,8 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task Details(ManageRoutineModel routine)
         {
-            await Shell.Current.DisplayAlert("Info", $"Clicked on details of '{routine.Title}'", "close");
+            await Shell.Current.GoToAsync(nameof(RoutineDetailPage),
+                new Dictionary<string, object> { { "id", routine.Id.ToString() } });
         }
     }
 }

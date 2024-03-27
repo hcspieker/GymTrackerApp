@@ -6,20 +6,16 @@ namespace GymTrackerApp.Models
 {
     public partial class ManageRoutineModel : ObservableObject
     {
+        public readonly int Id;
+
         [ObservableProperty]
         private string title;
 
         public ObservableCollection<string> WorkoutSummaries { get; set; }
 
-        public ManageRoutineModel()
-        {
-            Title = string.Empty;
-            WorkoutSummaries = new();
-
-        }
-
         public ManageRoutineModel(PlannedRoutine plannedRoutine)
         {
+            Id = plannedRoutine.Id;
             Title = plannedRoutine.Title;
 
             var summaries = plannedRoutine.PlannedWorkouts

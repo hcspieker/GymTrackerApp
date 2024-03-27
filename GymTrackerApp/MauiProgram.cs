@@ -27,6 +27,7 @@ namespace GymTrackerApp
             builder.Services.AddSingleton<StartViewModel>();
             builder.Services.AddSingleton<RoutineListViewModel>();
             builder.Services.AddTransient<RoutineCreateViewModel>();
+            builder.Services.AddTransient<RoutineDetailViewModel>();
             builder.Services.AddTransient<TrainingStartViewModel>();
             builder.Services.AddTransient<TrainingExecuteViewModel>();
             builder.Services.AddTransient<TrainingDetailViewModel>();
@@ -34,6 +35,7 @@ namespace GymTrackerApp
             builder.Services.AddSingleton<StartPage>();
             builder.Services.AddSingleton<RoutineListPage>();
             builder.Services.AddTransient<RoutineCreatePage>();
+            builder.Services.AddTransient<RoutineDetailPage>();
             builder.Services.AddTransient<TrainingStartPage>();
             builder.Services.AddTransient<TrainingExecutePage>();
             builder.Services.AddTransient<TrainingDetailPage>();

@@ -86,6 +86,9 @@
 	  <MauiXaml Update="Views\RoutineCreatePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\RoutineDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\RoutineListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

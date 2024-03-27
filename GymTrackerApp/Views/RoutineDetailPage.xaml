@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:models="clr-namespace:GymTrackerApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:util="clr-namespace:GymTrackerApp.Util"
+             xmlns:viewModels="clr-namespace:GymTrackerApp.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GymTrackerApp.Views.RoutineDetailPage"
+             Title="Modify Routine">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}"
+                                        EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <Frame>
+                <VerticalStackLayout>
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <HorizontalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EditRoutineTitleCommand}" />
+                        </HorizontalStackLayout.GestureRecognizers>
+                        <Label  Text="{Binding Routine.Title}"
+                                Style="{StaticResource BigTitleLabel}" />
+                        <Label Style="{StaticResource TitleRenameLabel}" />
+                    </HorizontalStackLayout>
+                    <Picker Title="Select the category"
+                            SelectedItem="{Binding Routine.SelectedCategory, Mode=TwoWay}"
+                            ItemsSource="{Binding Routine.Categories}"
+                            ItemDisplayBinding="{Binding DisplayName}" />
+                </VerticalStackLayout>
+            </Frame>
+            <BoxView Style="{StaticResource HorizontalLine}" />
+            <Label Grid.Column="1"
+                   Text="Workouts"
+                   Style="{StaticResource BigTitleLabel}" />
+            <CollectionView ItemsSource="{Binding Routine.DisplayWorkouts}">
+                <CollectionView.EmptyView>
+                    <Label Text="No workouts defined"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           FontAttributes="Italic" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame IsVisible="{Binding IsVisible}">
+                            <VerticalStackLayout>
+                                <Grid ColumnDefinitions="*,auto"
+                                      RowDefinitions="*,*">
+                                    <HorizontalStackLayout>
+                                        <HorizontalStackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineDetailViewModel}}, Path=EditWorkoutTitleCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </HorizontalStackLayout.GestureRecognizers>
+                                        <Label  Text="{Binding Title}"
+                                                Style="{StaticResource TitleLabel}" />
+                                        <Label Style="{StaticResource TitleRenameLabel}" />
+                                    </HorizontalStackLayout>
+                                    <Button Grid.Column="1"
+                                            Style="{StaticResource MiniDeleteButton}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineDetailViewModel}}, Path=DeleteWorkoutCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+                                <BoxView Style="{StaticResource HorizontalLine}" />
+                                <CollectionView ItemsSource="{Binding DisplayExercises}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="No exercises defined"
+                                               HorizontalOptions="Center"
+                                               FontAttributes="Italic" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="*,*"
+                                                  RowDefinitions="*,*,*"
+                                                  Margin="0,0,0,10"
+                                                  IsVisible="{Binding IsVisible}">
+                                                <Label Text="{Binding Name}"
+                                                       Style="{StaticResource TitleLabel}" />
+                                                <Button Grid.Column="1"
+                                                        HorizontalOptions="End"
+                                                        Style="{StaticResource MiniDeleteButton}"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineDetailViewModel}}, Path=DeleteExerciseCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                <Label Grid.Row="1"
+                                                       Text="Warmup"
+                                                       VerticalTextAlignment="Center"
+                                                       Style="{StaticResource SmallLabel}" />
+                                                <HorizontalStackLayout Grid.Column="1"
+                                                                       Grid.Row="1"
+                                                                       HorizontalOptions="End">
+                                                    <Label Text="Sets"
+                                                           VerticalTextAlignment="Center"
+                                                           Style="{StaticResource SmallLabel}" />
+                                                    <Entry Placeholder="3"
+                                                           Text="{Binding WarmupSets}"
+                                                           Keyboard="Numeric" />
+                                                </HorizontalStackLayout>
+                                                <Label Grid.Row="2"
+                                                       Text="Work"
+                                                       VerticalTextAlignment="Center"
+                                                       Style="{StaticResource SmallLabel}" />
+                                                <HorizontalStackLayout Grid.Column="1"
+                                                                       Grid.Row="2"
+                                                                       HorizontalOptions="End">
+                                                    <Label Text="Sets"
+                                                           VerticalTextAlignment="Center"
+                                                           Style="{StaticResource SmallLabel}" />
+                                                    <Entry Placeholder="3"
+                                                           Text="{Binding WorkSets}"
+                                                           Keyboard="Numeric" />
+                                                    <Label Text="Reps"
+                                                           VerticalTextAlignment="Center"
+                                                           Style="{StaticResource SmallLabel}" />
+                                                    <Entry Placeholder="5"
+                                                           Text="{Binding RepsPerWorkSet}"
+                                                           Keyboard="Numeric" />
+                                                </HorizontalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                <Grid RowDefinitions="*"
+                                      ColumnDefinitions="*,*">
+                                    <Button Grid.Column="1"
+                                            Style="{StaticResource MiniButton}"
+                                            Text="Add exercise"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:RoutineDetailViewModel}}, Path=AddExerciseCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Frame>
+                <Grid RowDefinitions="*"
+                      ColumnDefinitions="*,*">
+                    <Button Grid.Column="1"
+                            Style="{StaticResource MiniButton}"
+                            Command="{Binding AddWorkoutCommand}"
+                            Text="Add workout" />
+                </Grid>
+            </Frame>
+            <BoxView Style="{StaticResource HorizontalLine}" />
+            <Grid ColumnDefinitions="*,*">
+                <Button Grid.Column="1"
+                        Command="{Binding ResetCommand}"
+                        Text="Reset" />
+                <Button Grid.Column="1"
+                        Command="{Binding SaveChangesCommand}"
+                        Text="Save changes" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
