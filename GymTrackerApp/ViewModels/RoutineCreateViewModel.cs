@@ -84,6 +84,12 @@ namespace GymTrackerApp.ViewModels
         [RelayCommand]
         async Task Save()
         {
+            if (Routine.SelectedCategory == null)
+            {
+                await Shell.Current.DisplayAlert("Warning", "Category is mandatory", "close");
+                return;
+            }
+
             var plannedRoutine = Routine.ConvertToEty();
 
             using var context = new GymTrackerContext();
