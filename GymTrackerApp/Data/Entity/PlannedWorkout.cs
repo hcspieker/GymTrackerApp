@@ -8,5 +8,6 @@
         public int PlannedRoutineId { get; set; }
         public PlannedRoutine? PlannedRoutine { get; set; }
         public List<PlannedExercise> PlannedExercises { get; set; } = new();
+        public List<Workout> Workouts { get; set; } = new();
     }
 }

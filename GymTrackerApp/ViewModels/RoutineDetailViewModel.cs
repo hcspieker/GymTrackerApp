@@ -49,6 +49,8 @@ namespace GymTrackerApp.ViewModels
                 var entry = context.PlannedRoutines
                     .Include(x => x.PlannedWorkouts)
                         .ThenInclude(x => x.PlannedExercises)
+                    .Include(x => x.PlannedWorkouts)
+                        .ThenInclude(x => x.Workouts)
                     .Single(x => x.Id == Id);
 
                 Routine = new ModifyRoutineModel(entry);
@@ -136,6 +138,34 @@ namespace GymTrackerApp.ViewModels
         }
 
         [RelayCommand]
+        async Task Delete()
+        {
+            using var context = new GymTrackerContext();
+            var workouts = context.Workouts
+                .ToList();
+
+            var workoutsToChange = workouts.Where(x => routine.ProcessingWorkouts
+                .Any(y => y.Id == x.PlannedWorkoutId))
+                .ToList();
+
+            foreach (var workoutToChange in workoutsToChange)
+            {
+                workoutToChange.PlannedWorkoutId = null;
+            }
+            //await context.SaveChangesAsync();
+            var entry = context.PlannedRoutines
+                .Include(x => x.PlannedWorkouts)
+                .ThenInclude(x => x.PlannedExercises)
+                .Single(x => x.Id == Routine.Id);
+
+            context.Remove(entry);
+            context.SaveChanges();
+
+            await Notify("deleted routine");
+            await Shell.Current.GoToAsync("..");
+        }
+
+        [RelayCommand]
         async Task Reset()
         {
             await LoadData();
@@ -150,6 +180,8 @@ namespace GymTrackerApp.ViewModels
             var entry = context.PlannedRoutines
                 .Include(x => x.PlannedWorkouts)
                     .ThenInclude(x => x.PlannedExercises)
+                .Include(x => x.PlannedWorkouts)
+                    .ThenInclude(x => x.Workouts)
                 .Single(x => x.Id == Id);
 
             ModifyStoredRoutine(entry);
@@ -164,7 +196,7 @@ namespace GymTrackerApp.ViewModels
         private void ModifyStoredRoutine(PlannedRoutine plannedRoutine)
         {
             plannedRoutine.Title = Routine.Title;
-            plannedRoutine.Categories = Routine.PlannedCategory;
+            //plannedRoutine.Categories = Routine.PlannedCategory;
         }
 
         private void HandleWorkoutChanges(PlannedRoutine plannedRoutine, GymTrackerContext context)
@@ -173,7 +205,12 @@ namespace GymTrackerApp.ViewModels
             {
                 if (workout.Id != 0 && workout.ModelState == ModelState.Deleted)
                 {
-                    context.Remove(plannedRoutine.PlannedWorkouts.Single(x => x.Id == workout.Id));
+                    var plannedWorkout = plannedRoutine.PlannedWorkouts.Single(x => x.Id == workout.Id);
+                    foreach (var training in plannedWorkout.Workouts)
+                    {
+                        training.PlannedWorkoutId = null;
+                    }
+                    context.Remove(plannedWorkout);
                 }
                 else if (workout.ModelState == ModelState.Added)
                 {
