@@ -104,7 +104,7 @@ namespace GymTrackerApp.ViewModels
                     return;
                 }
 
-                await Shell.Current.GoToAsync(nameof(TrainingExecutePage), new Dictionary<string, object> { { "title", WorkoutTitle } });
+                await Shell.Current.GoToAsync(nameof(TrainingExecutePage), new Dictionary<string, object> { { "title", WorkoutTitle.Trim() } });
             }
         }
     }

@@ -31,7 +31,7 @@ namespace GymTrackerApp.ViewModels
             if (result == Routine.Title || string.IsNullOrWhiteSpace(result))
                 return;
 
-            Routine.Title = result;
+            Routine.Title = result.Trim();
         }
 
         [RelayCommand]
@@ -42,7 +42,7 @@ namespace GymTrackerApp.ViewModels
 
             if (string.IsNullOrWhiteSpace(result)) return;
 
-            Routine.Workouts.Add(new(result));
+            Routine.Workouts.Add(new(result.Trim()));
         }
 
         [RelayCommand]
@@ -54,7 +54,7 @@ namespace GymTrackerApp.ViewModels
             if (result == workout.Title || string.IsNullOrWhiteSpace(result))
                 return;
 
-            workout.Title = result;
+            workout.Title = result.Trim();
         }
 
         [RelayCommand]
@@ -71,7 +71,7 @@ namespace GymTrackerApp.ViewModels
 
             if (string.IsNullOrWhiteSpace(result)) return;
 
-            workout.Exercises.Add(new CreateExerciseModel(result));
+            workout.Exercises.Add(new CreateExerciseModel(result.Trim()));
         }
 
         [RelayCommand]

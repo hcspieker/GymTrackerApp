@@ -73,7 +73,7 @@ namespace GymTrackerApp.ViewModels
             if (result == Routine.Title || string.IsNullOrWhiteSpace(result))
                 return;
 
-            Routine.Title = result;
+            Routine.Title = result.Trim();
             Routine.ModelState = ModelState.Modified;
         }
 
@@ -85,7 +85,7 @@ namespace GymTrackerApp.ViewModels
 
             if (string.IsNullOrWhiteSpace(result)) return;
 
-            var workout = new ModifyWorkoutModel(result);
+            var workout = new ModifyWorkoutModel(result.Trim());
             Routine.ProcessingWorkouts.Add(workout);
             Routine.DisplayWorkouts.Add(workout);
         }
@@ -99,7 +99,7 @@ namespace GymTrackerApp.ViewModels
             if (result == workout.Title || string.IsNullOrWhiteSpace(result))
                 return;
 
-            workout.Title = result;
+            workout.Title = result.Trim();
 
             workout.ModelState = ModelState.Modified;
         }
@@ -122,7 +122,7 @@ namespace GymTrackerApp.ViewModels
 
             if (string.IsNullOrWhiteSpace(result)) return;
 
-            var exercise = new ModifyExerciseModel(result);
+            var exercise = new ModifyExerciseModel(result.Trim());
             workout.DisplayExercises.Add(exercise);
             workout.ProcessingExercises.Add(exercise);
         }

@@ -116,7 +116,7 @@ namespace GymTrackerApp.ViewModels
                 return;
             }
 
-            Workout.Exercises.Add(new ExecuteExerciseModel(name));
+            Workout.Exercises.Add(new ExecuteExerciseModel(name.Trim()));
         }
 
         [RelayCommand]
@@ -170,7 +170,7 @@ namespace GymTrackerApp.ViewModels
 
             try
             {
-                addSetDelegate(new ExecuteSetModel(input));
+                addSetDelegate(new ExecuteSetModel(input.Trim()));
             }
             catch (Exception)
             {

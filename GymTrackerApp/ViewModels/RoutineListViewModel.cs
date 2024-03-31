@@ -50,7 +50,7 @@ namespace GymTrackerApp.ViewModels
                 return;
             }
 
-            await Shell.Current.GoToAsync(nameof(RoutineCreatePage), true, new Dictionary<string, object> { { "Title", title } });
+            await Shell.Current.GoToAsync(nameof(RoutineCreatePage), true, new Dictionary<string, object> { { "Title", title.Trim() } });
         }
 
         [RelayCommand]
