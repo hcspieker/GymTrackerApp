@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
-        public PlannedRoutineCategory Categories { get; set; }
+        public PlannedRoutineCategory Category { get; set; }
 
         public List<PlannedWorkout> PlannedWorkouts { get; set; } = new();
     }

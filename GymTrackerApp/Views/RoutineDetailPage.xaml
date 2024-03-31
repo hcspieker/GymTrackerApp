@@ -33,10 +33,10 @@
                                 Style="{StaticResource BigTitleLabel}" />
                         <Label Style="{StaticResource TitleRenameLabel}" />
                     </HorizontalStackLayout>
-                    <!--<Picker Title="Select the category"
+                    <Picker Title="Select the category"
                             SelectedItem="{Binding Routine.SelectedCategory, Mode=TwoWay}"
                             ItemsSource="{Binding Routine.Categories}"
-                            ItemDisplayBinding="{Binding DisplayName}" />-->
+                            ItemDisplayBinding="{Binding DisplayName}" />
                 </VerticalStackLayout>
             </Frame>
             <BoxView Style="{StaticResource HorizontalLine}" />

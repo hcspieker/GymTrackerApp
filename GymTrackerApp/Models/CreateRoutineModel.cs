@@ -34,7 +34,7 @@ namespace GymTrackerApp.Models
             return new PlannedRoutine
             {
                 Title = Title,
-                Categories = ConvertCategory(SelectedCategory.Value),
+                Category = ConvertCategory(SelectedCategory.Value),
                 PlannedWorkouts = Workouts.Select(x => x.ConvertToEty()).ToList()
             };
         }

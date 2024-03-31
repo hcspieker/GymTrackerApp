@@ -9,12 +9,12 @@ namespace GymTrackerApp.Models
         [ObservableProperty]
         private string title;
 
-        //public List<PickerItem<RoutineCategory>> Categories { get; set; }
+        public List<PickerItem<RoutineCategory>> Categories { get; set; }
 
-        //[ObservableProperty]
-        //private PickerItem<RoutineCategory> selectedCategory;
+        [ObservableProperty]
+        private PickerItem<RoutineCategory> selectedCategory;
 
-        //public PlannedRoutineCategory PlannedCategory => ConvertCategory(SelectedCategory.Value);
+        public PlannedRoutineCategory PlannedCategory => ConvertCategory(SelectedCategory.Value);
 
         public ObservableCollection<ModifyWorkoutModel> DisplayWorkouts { get; set; }
         public List<ModifyWorkoutModel> ProcessingWorkouts { get; set; }
@@ -22,8 +22,8 @@ namespace GymTrackerApp.Models
         public ModifyRoutineModel() : base(0)
         {
             Title = string.Empty;
-            //Categories = new List<PickerItem<RoutineCategory>>();
-            //SelectedCategory = new PickerItem<RoutineCategory>(RoutineCategory.Unknown);
+            Categories = new List<PickerItem<RoutineCategory>>();
+            SelectedCategory = new PickerItem<RoutineCategory>(RoutineCategory.Unknown);
             DisplayWorkouts = new();
             ProcessingWorkouts = new();
         }
@@ -31,13 +31,13 @@ namespace GymTrackerApp.Models
         public ModifyRoutineModel(PlannedRoutine entry) : base(entry.Id)
         {
             Title = entry.Title;
-            //Categories = Enum.GetValues(typeof(RoutineCategory))
-            //    .Cast<RoutineCategory>()
-            //    .Select(x => new PickerItem<RoutineCategory>(x))
-            //    .OrderBy(x => (int)x.Value)
-            //    .ToList();
+            Categories = Enum.GetValues(typeof(RoutineCategory))
+                .Cast<RoutineCategory>()
+                .Select(x => new PickerItem<RoutineCategory>(x))
+                .OrderBy(x => (int)x.Value)
+                .ToList();
 
-            //SelectedCategory = Categories.Single(x => ConvertCategory(x.Value) == entry.Categories);
+            SelectedCategory = Categories.Single(x => ConvertCategory(x.Value) == entry.Category);
 
             ProcessingWorkouts = entry.PlannedWorkouts.Select(x => new ModifyWorkoutModel(x)).ToList();
             DisplayWorkouts = new ObservableCollection<ModifyWorkoutModel>(ProcessingWorkouts);

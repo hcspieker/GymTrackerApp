@@ -54,6 +54,7 @@ namespace GymTrackerApp.ViewModels
                     .Single(x => x.Id == Id);
 
                 Routine = new ModifyRoutineModel(entry);
+                Routine.SelectedCategory = Routine.Categories.Single(x => (int)x.Value == (int)entry.Category);
                 await Notify("loaded routine");
             }
             catch (Exception)
@@ -144,7 +145,7 @@ namespace GymTrackerApp.ViewModels
             var workouts = context.Workouts
                 .ToList();
 
-            var workoutsToChange = workouts.Where(x => routine.ProcessingWorkouts
+            var workoutsToChange = workouts.Where(x => Routine.ProcessingWorkouts
                 .Any(y => y.Id == x.PlannedWorkoutId))
                 .ToList();
 
@@ -152,7 +153,6 @@ namespace GymTrackerApp.ViewModels
             {
                 workoutToChange.PlannedWorkoutId = null;
             }
-            //await context.SaveChangesAsync();
             var entry = context.PlannedRoutines
                 .Include(x => x.PlannedWorkouts)
                 .ThenInclude(x => x.PlannedExercises)
@@ -196,7 +196,7 @@ namespace GymTrackerApp.ViewModels
         private void ModifyStoredRoutine(PlannedRoutine plannedRoutine)
         {
             plannedRoutine.Title = Routine.Title;
-            //plannedRoutine.Categories = Routine.PlannedCategory;
+            plannedRoutine.Category = Routine.PlannedCategory;
         }
 
         private void HandleWorkoutChanges(PlannedRoutine plannedRoutine, GymTrackerContext context)
