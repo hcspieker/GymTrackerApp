@@ -58,8 +58,14 @@ namespace GymTrackerApp.ViewModels
         }
 
         [RelayCommand]
-        void DeleteWorkout(CreateWorkoutModel workout)
+        async Task DeleteWorkout(CreateWorkoutModel workout)
         {
+            var delete = await Shell.Current.DisplayAlert("Warning",
+                $"Do you really want to delete the workout {workout.Title}?", "yes", "no");
+
+            if (!delete)
+                return;
+
             Routine.Workouts.Remove(workout);
         }
 
@@ -75,8 +81,14 @@ namespace GymTrackerApp.ViewModels
         }
 
         [RelayCommand]
-        void DeleteExercise(CreateExerciseModel exercise)
+        async Task DeleteExercise(CreateExerciseModel exercise)
         {
+            var delete = await Shell.Current.DisplayAlert("Warning",
+                $"Do you really want to delete the exercise {exercise.Name}?", "yes", "no");
+
+            if (!delete)
+                return;
+
             var workout = Routine.Workouts.Single(x => x.Exercises.Any(y => y.TemporaryId == exercise.TemporaryId));
             workout.Exercises.Remove(exercise);
         }
